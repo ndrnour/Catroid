@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -98,6 +99,15 @@ public class SettingsActivity extends PreferenceActivity {
 		setHintPreferences();
 		updateActionBar();
 
+		Preference language = findPreference("setting_multilingual");
+		language.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent intent = new Intent(getApplicationContext(), Multilingual.class);
+				startActivity(intent);
+				return false;
+			}
+		});
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
