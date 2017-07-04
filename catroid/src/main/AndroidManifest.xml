@@ -149,6 +149,7 @@
                     android:pathPrefix="/catrobat.com:catroid" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.Multilingual" />
         <activity
             android:name=".ui.BackPackActivity"
             android:noHistory="true"
