@@ -36,6 +36,7 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
+import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
@@ -43,6 +44,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
@@ -84,6 +86,8 @@ public class Sprite implements Serializable, Cloneable {
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
+	private transient BroadcastSequenceMap broadcastSequenceMap = new BroadcastSequenceMap();
+	private transient BroadcastWaitSequenceMap broadcastWaitSequenceMap = new BroadcastWaitSequenceMap();
 
 	@XStreamAsAttribute
 	private String name;
@@ -299,13 +303,9 @@ public class Sprite implements Serializable, Cloneable {
 
 	private void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
 		String sceneName = ProjectManager.getInstance().getSceneToPlay().getName();
-		if (BroadcastSequenceMap.containsKey(broadcastMessage, sceneName)) {
-			BroadcastSequenceMap.get(broadcastMessage, sceneName).add(action);
-		} else {
-			ArrayList<SequenceAction> actionList = new ArrayList<>();
-			actionList.add(action);
-			BroadcastSequenceMap.put(sceneName, broadcastMessage, actionList);
-		}
+		List<SequenceAction> actions = new ArrayList<>();
+		actions.add(action);
+		broadcastSequenceMap.put(sceneName, broadcastMessage, actions);
 	}
 
 	public ActionFactory getActionFactory() {
@@ -378,11 +378,6 @@ public class Sprite implements Serializable, Cloneable {
 		return cloneSprite;
 	}
 
-	public Sprite cloneForScene() {
-		Sprite clone = clone();
-		return clone;
-	}
-
 	public Sprite shallowClone() {
 		final Sprite cloneSprite = createSpriteInstance();
 		cloneSprite.setName(this.name);
@@ -398,6 +393,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.soundList = this.soundList;
 		cloneSprite.userBricks = this.userBricks;
 		cloneSprite.nfcTagList = this.nfcTagList;
+		cloneSprite.broadcastSequenceMap = this.broadcastSequenceMap;
+		cloneSprite.broadcastWaitSequenceMap = this.broadcastWaitSequenceMap;
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -549,6 +546,18 @@ public class Sprite implements Serializable, Cloneable {
 			cloneScriptList.add(addElement);
 		}
 		cloneSprite.scriptList = cloneScriptList;
+	}
+
+	public void createWhengamepadButtonScriptActionSequence(String action) {
+		ParallelAction whenParallelAction = actionFactory.parallel();
+		for (Script script : scriptList) {
+			if (script instanceof WhenGamepadButtonScript && (((WhenGamepadButtonScript) script).getAction().equalsIgnoreCase(action))) {
+				SequenceAction sequence = createActionSequence(script);
+				whenParallelAction.addAction(sequence);
+			}
+		}
+		look.setWhenParallelAction(whenParallelAction);
+		look.addAction(whenParallelAction);
 	}
 
 	public Sprite cloneForBackPack() {
@@ -894,6 +903,17 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
+	public void updateSetPenColorFormulas() {
+		for (Script script : getScriptList()) {
+			for (Brick brick : script.getBrickList()) {
+				if (brick instanceof SetPenColorBrick) {
+					SetPenColorBrick spcBrick = (SetPenColorBrick) brick;
+					spcBrick.correctBrickFieldsFromPhiro();
+				}
+			}
+		}
+	}
+
 	private void renameSpriteInCollisionFormulas(String newName, Context context) {
 		String oldName = getName();
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
@@ -971,5 +991,13 @@ public class Sprite implements Serializable, Cloneable {
 
 	public boolean isClone() {
 		return isClone;
+	}
+
+	public BroadcastSequenceMap getBroadcastSequenceMap() {
+		return broadcastSequenceMap;
+	}
+
+	public BroadcastWaitSequenceMap getBroadcastWaitSequenceMap() {
+		return broadcastWaitSequenceMap;
 	}
 }

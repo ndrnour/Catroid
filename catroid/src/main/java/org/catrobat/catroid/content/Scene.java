@@ -31,8 +31,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickWithSpriteReference;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -136,7 +136,7 @@ public class Scene implements Serializable {
 		clonedScene.dataContainer = new DataContainer(project);
 		ProjectManager.getInstance().setCurrentScene(this);
 		for (Sprite sprite : spriteList) {
-			Sprite cloneSprite = sprite.cloneForScene();
+			Sprite cloneSprite = sprite.clone();
 			for (UserBrick userBrick : cloneSprite.getUserBrickList()) {
 				ProjectManager.getInstance().setCurrentScene(clonedScene);
 				userBrick.updateUserBrickParametersAndVariables();
@@ -477,17 +477,18 @@ public class Scene implements Serializable {
 
 	public void refreshSpriteReferences() {
 		for (Brick brick : getAllBricks()) {
-			if (!(brick instanceof PointToBrick)) {
-				continue;
-			}
-			PointToBrick pointToBrick = (PointToBrick) brick;
-			Sprite pointedSprite = pointToBrick.getPointedObject();
-			if (pointedSprite == null) {
+			if (!(brick instanceof BrickWithSpriteReference)) {
 				continue;
 			}
 
-			Sprite newSprite = getSpriteBySpriteName(pointToBrick.getPointedObject().getName());
-			pointToBrick.setPointedObject(newSprite);
+			BrickWithSpriteReference referenceBrick = ((BrickWithSpriteReference) brick);
+			Sprite referencedSprite = referenceBrick.getSprite();
+			if (referencedSprite == null) {
+				continue;
+			}
+
+			Sprite newSprite = getSpriteBySpriteName(referencedSprite.getName());
+			referenceBrick.setSprite(newSprite);
 		}
 	}
 
