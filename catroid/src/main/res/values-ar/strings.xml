@@ -1447,4 +1447,6 @@
   <string name="crash_dialog_always_send">دائماً أرسل</string>
   <string name="crash_dialog_send">أرسل</string>
   <!--  -->
+  <!-- Multilingual Activity -->
+  <string name="device_language">لغة الجهاز</string>
 </resources>

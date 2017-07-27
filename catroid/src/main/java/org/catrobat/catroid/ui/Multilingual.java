@@ -41,21 +41,40 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.CatroidApplication.languageSharedPreferences;
 
 public class Multilingual extends Activity {
+	private static String[] languageCode = {"az", "bs", "ca", "cs", "sr-rCS", "sr-rSP", "da", "de", "en-rAU", "en-rCA",
+			"en-rGB", "en", "es", "fr", "gl", "hr", "in", "it", "hu", "mk", "ms", "nl", "no", "pl", "pt-rBR", "pt", "ru",
+			"ro", "sq", "sl", "sv", "vi", "tr", "ml", "ta", "te", "th", "gu", "hi", "ja", "ko", "zh-rCN", "zh-rTW", "ar",
+			"ur", "fa", "ps", "sd", "iw"};
+	public static String languageTagKey = "applicationLanguage";
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_multilingual);
 		setTitle(R.string.preference_title_language);
-		ListView listview = (ListView) findViewById(R.id.list_Languages);
-		String[] languages = getResources().getStringArray(R.array.Languages_items);
+		ListView listview = (ListView) findViewById(R.id.list_languages);
+		List<String> languagesNames = new ArrayList<>();
+		languagesNames.add(getResources().getString(R.string.device_language));
+		for (String aLanguageCode : languageCode) {
+			if (aLanguageCode.length() == 2) {
+				languagesNames.add(new Locale(aLanguageCode).getDisplayName(new Locale(aLanguageCode)));
+			} else {
+				String language = aLanguageCode.substring(0, 2);
+				String country = aLanguageCode.substring(4);
+				languagesNames.add(new Locale(language, country).getDisplayName(new Locale(language, country)));
+			}
+		}
+
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-				R.layout.multilingual_name_text, R.id.lang_text, languages);
+				R.layout.multilingual_name_text, R.id.lang_text, languagesNames);
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -64,349 +83,348 @@ public class Multilingual extends Activity {
 					setLocale(defaultSystemLanguage);
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.commit();
 				}
 				if (position == 1) {
 					setLocale("az");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "az");
+					editor.putString(languageTagKey, "az");
 					editor.commit();
 				}
 				if (position == 2) {
 					setLocale("bs");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "bs");
+					editor.putString(languageTagKey, "bs");
 					editor.commit();
 				}
 				if (position == 3) {
 					setLocale("ca");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ca");
+					editor.putString(languageTagKey, "ca");
 					editor.commit();
 				}
 				if (position == 4) {
 					setLocale("cs");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "cs");
+					editor.putString(languageTagKey, "cs");
 					editor.commit();
 				}
 				if (position == 5) {
-					setLocale("sr-rCS");
+					setLocale("sr", "CS");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "sr-rCS");
+					editor.putString(languageTagKey, "sr-rCS");
 					editor.commit();
 				}
 				if (position == 6) {
-					setLocale("sr-rSP");
+					setLocale("sr", "SP");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "sr-rSP");
+					editor.putString(languageTagKey, "sr-rSP");
 					editor.commit();
 				}
 				if (position == 7) {
 					setLocale("da");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "da");
+					editor.putString(languageTagKey, "da");
 					editor.commit();
 				}
 				if (position == 8) {
 					setLocale("de");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "de");
+					editor.putString(languageTagKey, "de");
 					editor.commit();
 				}
 				if (position == 9) {
-					setLocale("en-rAU");
+					setLocale("en", "AU");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "en-rAU");
+					editor.putString(languageTagKey, "en-rAU");
 					editor.commit();
 				}
 				if (position == 10) {
-					setLocale("en-rCA");
+					setLocale("en", "CA");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "en-rCA");
+					editor.putString(languageTagKey, "en-rCA");
 					editor.commit();
 				}
 				if (position == 11) {
-					setLocale("en-rGB");
+					setLocale("en", "GB");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "en-rGB");
+					editor.putString(languageTagKey, "en-rGB");
 					editor.commit();
 				}
 				if (position == 12) {
 					setLocale("en");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "en");
+					editor.putString(languageTagKey, "en");
 					editor.commit();
 				}
 				if (position == 13) {
 					setLocale("es");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "es");
+					editor.putString(languageTagKey, "es");
 					editor.commit();
 				}
 				if (position == 14) {
 					setLocale("fr");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "fr");
+					editor.putString(languageTagKey, "fr");
 					editor.commit();
 				}
 				if (position == 15) {
 					setLocale("gl");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "gl");
+					editor.putString(languageTagKey, "gl");
 					editor.commit();
 				}
 				if (position == 16) {
 					setLocale("hr");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "hr");
+					editor.putString(languageTagKey, "hr");
 					editor.commit();
 				}
 				if (position == 17) {
 					setLocale("in");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "in");
+					editor.putString(languageTagKey, "in");
 					editor.commit();
 				}
 				if (position == 18) {
 					setLocale("it");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "it");
+					editor.putString(languageTagKey, "it");
 					editor.commit();
 				}
 				if (position == 19) {
 					setLocale("hu");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "hu");
+					editor.putString(languageTagKey, "hu");
 					editor.commit();
 				}
 				if (position == 20) {
 					setLocale("mk");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "mk");
+					editor.putString(languageTagKey, "mk");
 					editor.commit();
 				}
 				if (position == 21) {
 					setLocale("ms");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ms");
+					editor.putString(languageTagKey, "ms");
 					editor.commit();
 				}
 				if (position == 22) {
 					setLocale("nl");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "nl");
+					editor.putString(languageTagKey, "nl");
 					editor.commit();
 				}
 				if (position == 23) {
 					setLocale("no");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "no");
+					editor.putString(languageTagKey, "no");
 					editor.commit();
 				}
 				if (position == 24) {
 					setLocale("pl");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "pl");
+					editor.putString(languageTagKey, "pl");
 					editor.commit();
 				}
 				if (position == 25) {
-					setLocale("pt-rBR");
+					setLocale("pt", "BR");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "pt-rBR");
+					editor.putString(languageTagKey, "pt-rBR");
 					editor.commit();
 				}
 				if (position == 26) {
 					setLocale("pt");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "pt");
+					editor.putString(languageTagKey, "pt");
 					editor.commit();
 				}
 				if (position == 27) {
 					setLocale("ru");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ru");
+					editor.putString(languageTagKey, "ru");
 					editor.commit();
 				}
 				if (position == 28) {
 					setLocale("ro");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ro");
+					editor.putString(languageTagKey, "ro");
 					editor.commit();
 				}
 				if (position == 29) {
 					setLocale("sq");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "sq");
+					editor.putString(languageTagKey, "sq");
 					editor.commit();
 				}
 				if (position == 30) {
 					setLocale("sl");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "sl");
+					editor.putString(languageTagKey, "sl");
 					editor.commit();
 				}
 				if (position == 31) {
 					setLocale("sv");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "sv");
+					editor.putString(languageTagKey, "sv");
 					editor.commit();
 				}
 				if (position == 32) {
 					setLocale("vi");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "vi");
+					editor.putString(languageTagKey, "vi");
 					editor.commit();
 				}
 				if (position == 33) {
 					setLocale("tr");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "tr");
+					editor.putString(languageTagKey, "tr");
 					editor.commit();
 				}
 				if (position == 34) {
 					setLocale("ml");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ml");
+					editor.putString(languageTagKey, "ml");
 					editor.commit();
 				}
 				if (position == 35) {
 					setLocale("ta");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ta");
+					editor.putString(languageTagKey, "ta");
 					editor.commit();
 				}
 				if (position == 36) {
 					setLocale("te");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "te");
+					editor.putString(languageTagKey, "te");
 					editor.commit();
 				}
 				if (position == 37) {
 					setLocale("th");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "th");
+					editor.putString(languageTagKey, "th");
 					editor.commit();
 				}
 				if (position == 38) {
 					setLocale("gu");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "gu");
+					editor.putString(languageTagKey, "gu");
 					editor.commit();
 				}
 				if (position == 39) {
 					setLocale("hi");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "hi");
+					editor.putString(languageTagKey, "hi");
 					editor.commit();
 				}
 				if (position == 40) {
 					setLocale("ja");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ja");
+					editor.putString(languageTagKey, "ja");
 					editor.commit();
 				}
 				if (position == 41) {
 					setLocale("ko");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ko");
+					editor.putString(languageTagKey, "ko");
 					editor.commit();
 				}
 				if (position == 42) {
-					setLocale("zh-rCN");
+					setLocale("zh", "CN");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "zh-rCN");
+					editor.putString(languageTagKey, "zh-rCN");
 					editor.commit();
 				}
 				if (position == 43) {
-					setLocale("zh-rTW");
+					setLocale("zh", "TW");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "zh-rTW");
+					editor.putString(languageTagKey, "zh-rTW");
 					editor.commit();
 				}
 				if (position == 44) {
 					setLocale("ar");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ar");
+					editor.putString(languageTagKey, "ar");
 					editor.commit();
 				}
 				if (position == 45) {
 					setLocale("ur");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ur");
+					editor.putString(languageTagKey, "ur");
 					editor.commit();
 				}
 				if (position == 46) {
 					setLocale("fa");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "fa");
+					editor.putString(languageTagKey, "fa");
 					editor.commit();
 				}
 				if (position == 47) {
 					setLocale("ps");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "ps");
+					editor.putString(languageTagKey, "ps");
 					editor.commit();
 				}
 				if (position == 48) {
 					setLocale("sd");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "sd");
+					editor.putString(languageTagKey, "sd");
 					editor.commit();
 				}
 				if (position == 49) {
 					setLocale("iw");
 					SharedPreferences.Editor editor = languageSharedPreferences.edit();
 					editor.clear().apply();
-					editor.putString("Nur", "iw");
+					editor.putString(languageTagKey, "iw");
 					editor.commit();
 				}
 			}
@@ -414,8 +432,8 @@ public class Multilingual extends Activity {
 	}
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-	public static void setContextLocale(Context context, String lang) {
-		Locale language = new Locale(lang);
+	public static void setContextLocale(Context context, String languageTag) {
+		Locale language = new Locale(languageTag);
 		Resources resources = context.getResources();
 		DisplayMetrics displayMetrics = resources.getDisplayMetrics();
 		Configuration conf = resources.getConfiguration();
@@ -425,8 +443,27 @@ public class Multilingual extends Activity {
 		resources.updateConfiguration(conf, displayMetrics);
 	}
 
-	public void setLocale(String lang) {
-		setContextLocale(this, lang);
+	public void setLocale(String languageTag) {
+		setContextLocale(this, languageTag);
+		Intent intent = new Intent(Multilingual.this, MainMenuActivity.class);
+		startActivity(intent);
+		finishAffinity();
+	}
+
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+	public static void setContextLocale(Context context, String languageTag, String countryTag) {
+		Locale language = new Locale(languageTag, countryTag);
+		Resources resources = context.getResources();
+		DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+		Configuration conf = resources.getConfiguration();
+		conf.locale = language;
+		Locale.setDefault(language);
+		conf.setLayoutDirection(language);
+		resources.updateConfiguration(conf, displayMetrics);
+	}
+
+	public void setLocale(String languageTag, String countryTag) {
+		setContextLocale(this, languageTag, countryTag);
 		Intent intent = new Intent(Multilingual.this, MainMenuActivity.class);
 		startActivity(intent);
 		finishAffinity();

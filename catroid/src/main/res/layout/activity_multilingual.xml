@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -28,7 +27,8 @@
     android:orientation="vertical">
 
      <ListView
-         android:id="@+id/list_Languages"
+
+         android:id="@+id/list_languages"
          android:layout_width="match_parent"
          android:layout_height="fill_parent"
          android:isScrollContainer="true" />

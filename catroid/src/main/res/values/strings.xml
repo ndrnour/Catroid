@@ -1628,5 +1628,7 @@
     <string name="crash_dialog_send">Send</string>
     <string name="plus" translatable="false">+</string>
     <!--  -->
+    <!-- Multilingual Activity -->
+    <string name="device_language">Device Language</string>
 </resources>
 
