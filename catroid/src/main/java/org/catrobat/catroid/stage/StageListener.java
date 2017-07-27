@@ -57,8 +57,6 @@ import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
-import org.catrobat.catroid.common.BroadcastSequenceMap;
-import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
@@ -68,7 +66,9 @@ import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
@@ -369,9 +369,11 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		transitionToScene(sceneName);
-		BroadcastSequenceMap.clear(sceneName);
-		BroadcastWaitSequenceMap.clear(sceneName);
-		BroadcastWaitSequenceMap.clearCurrentBroadcastEvent();
+		for (Sprite sprite : sceneToStart.getSpriteList()) {
+			sprite.getBroadcastSequenceMap().clear(sceneName);
+			sprite.getBroadcastWaitSequenceMap().clear(sceneName, sprite);
+			sprite.getBroadcastWaitSequenceMap().clearCurrentBroadcastEvent();
+		}
 		SoundManager.getInstance().clear();
 		stageBackupMap.remove(sceneName);
 		scene.firstStart = true;
@@ -786,8 +788,8 @@ public class StageListener implements ApplicationListener {
 	private void initScreenMode() {
 		switch (project.getScreenMode()) {
 			case STRETCH:
-				screenshotWidth = ScreenValues.SCREEN_WIDTH;
-				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
+				screenshotWidth = ScreenValues.getScreenWidthForProject(project);
+				screenshotHeight = ScreenValues.getScreenHeightForProject(project);
 				screenshotX = 0;
 				screenshotY = 0;
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);
@@ -826,6 +828,25 @@ public class StageListener implements ApplicationListener {
 	private void disposeStageButKeepActors() {
 		stage.unfocusAll();
 		batch.dispose();
+	}
+
+	public void gamepadPressed(String buttonType) {
+
+		for (Sprite sprite : sprites) {
+			if (hasSpriteGamepadScript(sprite)) {
+				sprite.createWhengamepadButtonScriptActionSequence(buttonType);
+			}
+		}
+	}
+
+	public static boolean hasSpriteGamepadScript(Sprite sprite) {
+
+		for (Script script : sprite.getScriptList()) {
+			if (script instanceof WhenGamepadButtonScript) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void addActor(Actor actor) {
