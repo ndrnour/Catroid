@@ -68,6 +68,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeSet;
 
 public final class LookController {
@@ -155,7 +156,11 @@ public final class LookController {
 						lookAdapter.getContext()));
 			}
 			int[] measure = lookData.getMeasure();
-			String measureString = measure[0] + " x " + measure[1];
+			//String measureString = measure[0] + " x " + measure[1];
+			int width = measure[0];
+			int height = measure[1];
+			String measureString = String.format(Locale.getDefault(), "%d", width) + " x " + String.format(Locale
+					.getDefault(), "%d", height);
 
 			holder.lookMeasureTextView.setText(measureString);
 			holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
