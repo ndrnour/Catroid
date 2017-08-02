@@ -25,7 +25,9 @@
     style="@style/BrickCategory" >
 
     <TextView
-        style="@style/BrickCategoryText_ldrtl.Lego_ldrtl"
+        style="@style/BrickCategoryText.Lego_ldrtl"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
         android:textDirection="rtl"
         android:text="@string/category_lego_ev3" >
     </TextView>

@@ -25,7 +25,9 @@
     style="@style/BrickCategory" >
 
     <TextView
-        style="@style/BrickCategoryText_ldrtl.Data_ldrtl"
+        style="@style/BrickCategoryText.Data_ldrtl"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
         android:textDirection="rtl"
         android:text="@string/category_data" >
     </TextView>
