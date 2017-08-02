@@ -25,9 +25,7 @@
     style="@style/BrickCategory" >
 
     <TextView
-        style="@style/BrickCategoryText.Pen_ldrtl"
-        android:textAlignment="viewStart"
-        android:layout_gravity="start"
+        style="@style/BrickCategoryText_ldrtl.Pen_ldrtl"
         android:textDirection="rtl"
         android:text="@string/category_pen" >
     </TextView>

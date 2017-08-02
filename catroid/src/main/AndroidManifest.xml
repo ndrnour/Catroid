@@ -162,7 +162,6 @@
         <activity
             android:name=".ui.MarketingActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.Multilingual" />
         <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation|screenSize"
