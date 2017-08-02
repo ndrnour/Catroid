@@ -25,9 +25,7 @@
     style="@style/BrickCategory" >
 
     <TextView
-        style="@style/BrickCategoryText.Phiro_ldrtl"
-        android:textAlignment="viewStart"
-        android:layout_gravity="start"
+        style="@style/BrickCategoryText_ldrtl.Phiro_ldrtl"
         android:textDirection="rtl"
         android:text="@string/category_phiro" >
     </TextView>

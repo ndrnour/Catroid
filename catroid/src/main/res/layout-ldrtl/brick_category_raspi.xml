@@ -25,9 +25,7 @@
     style="@style/BrickCategory" >
 
     <TextView
-        style="@style/BrickCategoryText.Raspi_ldrtl"
-        android:textAlignment="viewStart"
-        android:layout_gravity="start"
+        style="@style/BrickCategoryText_ldrtl.Raspi_ldrtl"
         android:textDirection="rtl"
         android:text="@string/category_raspi" >
     </TextView>
