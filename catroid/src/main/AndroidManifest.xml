@@ -197,6 +197,7 @@
             android:noHistory="false"
 
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.Multilingual" />
         <activity
             android:name=".ui.SettingsActivity"
             android:noHistory="true"
