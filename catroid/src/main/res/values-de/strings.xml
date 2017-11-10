@@ -1507,8 +1507,6 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="preference_access_title_fontface">Schriftart</string>
   <string name="preference_access_summary_fontface">Auswählen einer bevorzugten Schriftart.</string>
   <string name="preference_access_title_fontface_standard">Standard</string>
-  <string name="preference_access_title_fontface_serif">Serif</string>
-  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
   <string name="preference_access_title_high_contrast">Hoher Kontrast</string>
   <string name="preference_access_summary_high_contrast">Erhöht den Kontrast der Schrift auf den Bausteinen um diese besser lesbar zu machen.</string>
   <string name="preference_access_title_additional_icons">Zusätzliche Symbole</string>

@@ -658,126 +658,118 @@ public class CategoryBricksFactory {
 		List<Brick> categoryBricks = new LinkedList<>();
 		categoryBricks = setupControlCategoryList(context);
 
-		Resources res = context.getResources();
-		Configuration config = res.getConfiguration();
-		Locale savedLocale = config.locale;
-		config.locale = Locale.ENGLISH;
-		res.updateConfiguration(config, null);
 		String category = "No match";
 
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_control);
+				category = context.getResources().getString(R.string.category_control);
 			}
 		}
 		categoryBricks = setupEventCategoryList(context);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_event);
+				category = context.getResources().getString(R.string.category_event);
 			}
 		}
 		categoryBricks = setupMotionCategoryList(sprite, context);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_motion);
+				category = context.getResources().getString(R.string.category_motion);
 			}
 		}
 		categoryBricks = setupSoundCategoryList(context);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_sound);
+				category = context.getResources().getString(R.string.category_sound);
 			}
 		}
 		boolean isBackgroundSprite = sprite.getName().equals(context.getString(R.string.background));
 		categoryBricks = setupLooksCategoryList(context, isBackgroundSprite);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_looks);
+				category = context.getResources().getString(R.string.category_looks);
 			}
 		}
 		categoryBricks = setupPenCategoryList(sprite);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_pen);
+				category = context.getResources().getString(R.string.category_pen);
 			}
 		}
 		categoryBricks = setupUserBricksCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_user_bricks);
+				category = context.getResources().getString(R.string.category_user_bricks);
 			}
 		}
 		categoryBricks = setupDataCategoryList(context);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_data);
+				category = context.getResources().getString(R.string.category_data);
 			}
 		}
 		categoryBricks = setupLegoNxtCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_lego_nxt);
+				category = context.getResources().getString(R.string.category_lego_nxt);
 			}
 		}
 		categoryBricks = setupLegoEv3CategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_lego_ev3);
+				category = context.getResources().getString(R.string.category_lego_ev3);
 			}
 		}
 		categoryBricks = setupArduinoCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_arduino);
+				category = context.getResources().getString(R.string.category_arduino);
 			}
 		}
 		categoryBricks = setupDroneCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_drone);
+				category = context.getResources().getString(R.string.category_drone);
 			}
 		}
 		categoryBricks = setupJumpingSumoCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_jumping_sumo);
+				category = context.getResources().getString(R.string.category_jumping_sumo);
 			}
 		}
 		categoryBricks = setupPhiroProCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_phiro);
+				category = context.getResources().getString(R.string.category_phiro);
 			}
 		}
 		categoryBricks = setupRaspiCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_raspi);
+				category = context.getResources().getString(R.string.category_raspi);
 			}
 		}
 		categoryBricks = setupChromecastCategoryList(context);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_cast);
+				category = context.getResources().getString(R.string.category_cast);
 			}
 		}
 
 		if (brick instanceof AskBrick) {
-			category = res.getString(R.string.category_looks);
+			category = context.getResources().getString(R.string.category_looks);
 		} else if (brick instanceof AskSpeechBrick) {
-			category = res.getString(R.string.category_sound);
+			category = context.getResources().getString(R.string.category_sound);
 		} else if (brick instanceof WhenClonedBrick) {
-			category = res.getString(R.string.category_control);
+			category = context.getResources().getString(R.string.category_control);
 		} else if (brick instanceof WhenBackgroundChangesBrick) {
-			category = res.getString(R.string.category_event);
+			category = context.getResources().getString(R.string.category_event);
 		} else if (brick instanceof SetVariableBrick) {
-			category = res.getString(R.string.category_data);
+			category = context.getResources().getString(R.string.category_data);
 		} else if (brick instanceof NestingBrick) {
-			category = res.getString(R.string.category_control);
+			category = context.getResources().getString(R.string.category_control);
 		}
-
-		config.locale = savedLocale;
-		res.updateConfiguration(config, null);
 
 		return category;
 	}

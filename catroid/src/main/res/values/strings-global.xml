@@ -39,6 +39,13 @@
     <string name="punctuation_mark" translatable="false">…</string>
     <!--  -->
 
+    <!-- FontFace -->
+    <string name="preference_access_title_fontface_serif" translatable="false">Serif</string>
+    <string name="preference_access_title_fontface_dyslexic" translatable="false">Dyslexic</string>
+    <string name="preference_access_title_fontface_sabaa" translatable="false">Sabaa</string>
+    <string name="preference_access_title_fontface_stc" translatable="false">STC</string>
+    <!-- -->
+
     <!-- Numbers -->
     <string name="number_0" translatable="false">0</string>
     <string name="number_1" translatable="false">1</string>

@@ -93,13 +93,13 @@ public class BaseSettingsActivity extends PreferenceActivity {
 	public static final String NXT_SENSOR_2 = "setting_mindstorms_nxt_sensor_2";
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
-	public static final String[] NXT_SENSORS = {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+	public static final String[] NXT_SENSORS = { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 
 	public static final String EV3_SENSOR_1 = "setting_mindstorms_ev3_sensor_1";
 	public static final String EV3_SENSOR_2 = "setting_mindstorms_ev3_sensor_2";
 	public static final String EV3_SENSOR_3 = "setting_mindstorms_ev3_sensor_3";
 	public static final String EV3_SENSOR_4 = "setting_mindstorms_ev3_sensor_4";
-	public static final String[] EV3_SENSORS = {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
+	public static final String[] EV3_SENSORS = { EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4 };
 
 	public static final String DRONE_CONFIGS = "setting_drone_basic_configs";
 	public static final String DRONE_ALTITUDE_LIMIT = "setting_drone_altitude_limit";
@@ -116,6 +116,8 @@ public class BaseSettingsActivity extends PreferenceActivity {
 	public static final String ACCESS_APPLICATION_FONT = "SANS_SERIF";
 	public static final String ACCESS_PATH_FONT_SERIF = "fonts/CrimsonText-Roman.ttf";
 	public static final String ACCESS_PATH_FONT_DYSLEXIC = "fonts/OpenDyslexic-Regular.otf";
+	public static final String ACCESS_PATH_FONT_SABAA = "fonts/saudi.ttf";
+	public static final String ACCESS_PATH_FONT_STC = "fonts/STC.otf";
 	public static final String ACCESS_BUTTON = "preference_button_access";
 	public static final String ACCESS_PROFILE_NONE = "setting_access_profile_none";
 	public static final String ACCESS_PROFILE_ACTIVE = "setting_access_profile_active";
@@ -130,6 +132,8 @@ public class BaseSettingsActivity extends PreferenceActivity {
 	public static final String ACCESS_FONTFACE_VALUE_STANDARD = "standard";
 	public static final String ACCESS_FONTFACE_VALUE_SERIF = "serif";
 	public static final String ACCESS_FONTFACE_VALUE_DYSLEXIC = "dyslexic";
+	public static final String ACCESS_FONTFACE_VALUE_SABAA = "sabaa";
+	public static final String ACCESS_FONTFACE_VALUE_STC = "stc";
 	public static final String ACCESS_HIGH_CONTRAST = "setting_access_high_contrast";
 	public static final String ACCESS_ADDITIONAL_ICONS = "setting_access_additional_icons";
 	public static final String ACCESS_LARGE_ICONS = "setting_access_large_icons";
@@ -316,7 +320,7 @@ public class BaseSettingsActivity extends PreferenceActivity {
 
 		boolean areChoosersEnabled = getDroneChooserEnabled(this);
 
-		final String[] dronePreferences = new String[] {DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
+		final String[] dronePreferences = new String[] { DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE };
 		for (String dronePreference : dronePreferences) {
 			ListPreference listPreference = (ListPreference) findPreference(dronePreference);
 
@@ -395,7 +399,7 @@ public class BaseSettingsActivity extends PreferenceActivity {
 
 		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
 
-		final String[] sensorPreferences = new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+		final String[] sensorPreferences = new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 		for (int i = 0; i < sensorPreferences.length; ++i) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
@@ -408,7 +412,7 @@ public class BaseSettingsActivity extends PreferenceActivity {
 
 		boolean areChoosersEnabled = getMindstormsEV3SensorChooserEnabled(this);
 
-		final String[] sensorPreferences = new String[] {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
+		final String[] sensorPreferences = new String[] { EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4 };
 		for (int i = 0; i < sensorPreferences.length; i++) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(EV3Sensor.Sensor.getSensorCodes());
@@ -468,6 +472,10 @@ public class BaseSettingsActivity extends PreferenceActivity {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_SERIF);
 		} else if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_DYSLEXIC);
+		} else if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA)) {
+			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_SABAA);
+		} else if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STC)) {
+			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_STC);
 		}
 	}
 
@@ -590,7 +598,7 @@ public class BaseSettingsActivity extends PreferenceActivity {
 	public static NXTSensor.Sensor[] getLegoMindstormsNXTSensorMapping(Context context) {
 
 		final String[] sensorPreferences =
-				new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+				new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -604,7 +612,7 @@ public class BaseSettingsActivity extends PreferenceActivity {
 	public static EV3Sensor.Sensor[] getLegoMindstormsEV3SensorMapping(Context context) {
 
 		final String[] sensorPreferences =
-				new String[] {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
+				new String[] { EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4 };
 
 		EV3Sensor.Sensor[] sensorMapping = new EV3Sensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -674,7 +682,7 @@ public class BaseSettingsActivity extends PreferenceActivity {
 	public static DroneConfigPreference.Preferences[] getDronePreferenceMapping(Context context) {
 
 		final String[] dronePreferences =
-				new String[] {DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
+				new String[] { DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE };
 
 		DroneConfigPreference.Preferences[] preferenceMapping = new DroneConfigPreference.Preferences[5];
 		for (int i = 0; i < 5; i++) {

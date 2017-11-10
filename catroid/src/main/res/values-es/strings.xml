@@ -1524,8 +1524,6 @@
   <string name="preference_access_title_fontface">Tipo de letra</string>
   <string name="preference_access_summary_fontface">\"Tipo de letra\" te permite elegir el estilo de letra que tu prefieras.</string>
   <string name="preference_access_title_fontface_standard">Estándar</string>
-  <string name="preference_access_title_fontface_serif">Serif</string>
-  <string name="preference_access_title_fontface_dyslexic">Disléxico</string>
   <string name="preference_access_title_high_contrast">Alto contraste</string>
   <string name="preference_access_summary_high_contrast">Aumenta el contraste y hace más fácil leer el texto sobre los bloques.</string>
   <string name="preference_access_title_additional_icons">Iconos adicionales</string>

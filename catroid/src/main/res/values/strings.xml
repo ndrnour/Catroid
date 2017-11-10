@@ -167,8 +167,6 @@
     <string name="preference_access_title_fontface">Fontface</string>
     <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you prefer.</string>
     <string name="preference_access_title_fontface_standard">Standard</string>
-    <string name="preference_access_title_fontface_serif">Serif</string>
-    <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
     <string name="preference_access_title_high_contrast">High contrast</string>
     <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier to read.</string>
     <string name="preference_access_title_additional_icons">Additional icons</string>

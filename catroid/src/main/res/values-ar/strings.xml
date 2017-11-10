@@ -1590,8 +1590,6 @@
     <string name="preference_access_title_fontface">نوع خط</string>
     <string name="preference_access_summary_fontface">نوع الخط يسمح لك بإختيار نمط خط مفضل.</string>
     <string name="preference_access_title_fontface_standard">أساسي</string>
-    <string name="preference_access_title_fontface_serif">رقيق</string>
-    <string name="preference_access_title_fontface_dyslexic">عسر القراءة</string>
     <string name="preference_access_title_high_contrast">تباين عالي</string>
     <string name="preference_access_summary_high_contrast">زيادة التباين لجعل نص الّبنات البرمجية أسهل للقراءة.</string>
     <string name="preference_access_title_additional_icons">أيقونات إضافية</string>
