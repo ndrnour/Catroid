@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.SpeakBrickTools;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -101,9 +102,12 @@ public class SpeakAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		HashMap<String, String> speakParameter = new HashMap<String, String>();
+		HashMap<String, String> speakParameter = new HashMap<>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, hashText);
-		PreStageActivity.textToSpeech(String.valueOf(interpretedText), speechFile, listener, speakParameter);
+		//PreStageActivity.textToSpeech(String.valueOf(interpretedText), speechFile, listener, speakParameter,
+		//		SpeakBrickTools.getLocale());
+		PreStageActivity.textToSpeech.setLanguage(SpeakBrickTools.getLocale());
+		PreStageActivity.textToSpeech.speak(String.valueOf(interpretedText),TextToSpeech.QUEUE_FLUSH,speakParameter);
 	}
 
 	public void setSprite(Sprite sprite) {

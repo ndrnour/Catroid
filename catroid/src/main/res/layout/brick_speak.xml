@@ -55,11 +55,27 @@
         <TextView
             android:id="@+id/brick_speak_edit_text"
             style="@style/BrickEditText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             app:layout_inputType="text"
             app:layout_textField="true"
-            android:gravity="left" >
+            android:paddingStart="5dip"
+            android:gravity="start" >
         </TextView >
+
+        <TextView
+            android:id="@+id/brick_speak_language"
+            style="@style/BrickText.SingleLine"
+            android:paddingStart="5dip"
+            android:text="@string/brick_speak_in_language" >
+        </TextView >
+
+        <Spinner
+            android:id="@+id/brick_speak_spinner"
+            app:layout_newLine="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+        </Spinner>
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>
