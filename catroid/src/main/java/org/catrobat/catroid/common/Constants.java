@@ -24,7 +24,10 @@ package org.catrobat.catroid.common;
 
 import android.os.Environment;
 
+import org.catrobat.catroid.CatroidApplication;
+
 import java.util.Calendar;
+import java.util.Locale;
 
 public final class Constants {
 
@@ -271,6 +274,11 @@ public final class Constants {
 			"sw", "hu", "mk", "ms", "nl", "no", "pl", "pt-rBR", "pt", "ru", "ro", "sq", "sl", "sk",
 			"sv", "vi", "tr", "bg", "ml", "ta", "te", "th", "gu", "hi", "ja", "ko", "lt", "zh-rCN",
 			"zh-rTW", "ar", "ur", "fa", "ps", "sd", "iw"};
+
+	// TTS
+	public static final Locale[] availableLocalesTTS = {
+			Locale.getDefault(), new Locale("bn", "BD"), new Locale("bn", "IN"), new Locale("da",
+			"DK"), new Locale("fr"), new Locale("de")};
 
 	// Suppress default constructor for noninstantiability
 	private Constants() {

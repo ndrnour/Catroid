@@ -25,9 +25,11 @@ package org.catrobat.catroid.utils;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
@@ -35,8 +37,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -731,5 +736,35 @@ public final class Utils {
 			return (number >> index) & 0x1;
 		}
 		return 0;
+	}
+
+	public static List<String> getSupportedLocalesInTTS(Context context) {
+		TextToSpeech tts = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
+			@Override
+			public void onInit(int status) {
+
+			}
+		});
+		// let's assume tts is already inited at this point:
+		Locale[] locales = Locale.getAvailableLocales();
+		List<String> localeList = new ArrayList<>();
+		localeList.add(Locale.getDefault().getDisplayLanguage());
+		for (Locale locale : locales) {
+			int res = tts.isLanguageAvailable(locale);
+			switch (res){
+				case TextToSpeech.LANG_AVAILABLE:
+					localeList.add(locale.getDisplayLanguage());
+					break;
+				case TextToSpeech.LANG_COUNTRY_AVAILABLE:
+					localeList.add(locale.getDisplayLanguage());
+					break;
+				case TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE:
+					localeList.add(locale.getDisplayLanguage());
+					break;
+			}
+		}
+		// at this point the localeList object will contain
+		// all available languages for Text to Speech
+		return localeList;
 	}
 }

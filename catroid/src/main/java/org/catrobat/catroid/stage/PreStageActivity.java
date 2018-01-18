@@ -54,6 +54,7 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.SpeakBrickTools;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.ardrone.DroneInitializer;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
@@ -93,7 +94,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	private int requiredResourceCounter;
 	private Set<Integer> failedResources;
 
-	private static TextToSpeech textToSpeech;
+	public static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
 	private DroneInitializer droneInitializer = null;
@@ -569,6 +570,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 						@Override
 						public void onInit(int status) {
 							onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
+
 							textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
 							resourceInitialized();
 							if (status == TextToSpeech.ERROR) {
@@ -619,7 +621,11 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	}
 
 	public static void textToSpeech(String text, File speechFile, OnUtteranceCompletedListener listener,
-			HashMap<String, String> speakParameter) {
+			HashMap<String, String> speakParameter, Locale locale) {
+		if (textToSpeech.isLanguageAvailable(locale)== TextToSpeech.LANG_AVAILABLE){
+			textToSpeech.setLanguage(locale);
+		}
+		Log.e("OnStage", SpeakBrickTools.getLocale().getDisplayName());
 		if (text == null) {
 			text = "";
 		}

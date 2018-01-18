@@ -75,7 +75,8 @@ public class SpeakBrick extends FormulaBrick {
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
-
+		SpeakBrickTools.setSpeakSpinner(context, view, true);
+		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
 		textField.setOnClickListener(this);
 		return view;
 	}
@@ -85,6 +86,7 @@ public class SpeakBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_speak, null);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_edit_text);
 		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
+		SpeakBrickTools.setSpeakSpinner(context, prototypeView, false);
 		return prototypeView;
 	}
 
