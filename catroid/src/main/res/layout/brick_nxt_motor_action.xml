@@ -48,13 +48,14 @@
 
         <include layout="@layout/icon_brick_category_legonxt"/>
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/brick_nxt_motor_action_first_line"
-                android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -74,12 +75,12 @@
 
                     <!-- do not add spinner items here! -->
                 </Spinner >
-            </LinearLayout>
+            </TableRow>
 
-            <LinearLayout
-                android:layout_below="@+id/brick_nxt_motor_action_first_line"
-                android:layout_width="fill_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -108,9 +109,7 @@
                     android:layout_marginStart="3sp"
                     android:text="@string/nxt_motor_speed" >
                 </TextView >
-            </LinearLayout>
-        </RelativeLayout>
-
+            </TableRow>
+        </LinearLayout>
     </org.catrobat.catroid.ui.BrickLayout >
-
 </LinearLayout>

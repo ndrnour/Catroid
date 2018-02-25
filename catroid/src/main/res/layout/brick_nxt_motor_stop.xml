@@ -47,9 +47,10 @@
 
         <include layout="@layout/icon_brick_category_legonxt"/>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -66,7 +67,7 @@
                 android:textDirection="locale"
                 android:clickable="false"
                 android:focusable="false" />
-        </LinearLayout>
+        </TableRow>
 
     </org.catrobat.catroid.ui.BrickLayout >
 
