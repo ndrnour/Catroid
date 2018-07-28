@@ -25,9 +25,10 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.1.3'
         classpath 'io.fabric.tools:gradle:1.21.5'
     }
 }
@@ -187,6 +188,8 @@ dependencies {
     compile 'com.parrot:arsdk:3.12.6'
     //CAST
     compile 'com.google.android.gms:play-services-cast:12.0.0'
+    //Location
+    compile 'com.google.android.gms:play-services-location:12.0.0'
 
     //Analytics
     compile 'com.google.android.gms:play-services-analytics:12.0.0'
@@ -269,7 +272,7 @@ def getCurrentGitBranch() {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 17

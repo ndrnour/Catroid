@@ -26,6 +26,7 @@ import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -47,6 +48,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -74,6 +79,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Locale;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
@@ -86,16 +92,27 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({PROGRESS_BAR, FRAGMENT, ERROR})
-	@interface Content {}
+	@interface Content {
+	}
+
 	protected static final int PROGRESS_BAR = 0;
 	protected static final int FRAGMENT = 1;
 	protected static final int ERROR = 2;
+	private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+	public static FusedLocationProviderClient mFusedLocationClient;
+	protected Location mLastLocation;
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		getLastLocation();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		SettingsFragment.setToChosenLanguage(this);
+		mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
@@ -108,6 +125,22 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 		} else {
 			setContentView(R.layout.privacy_policy_view);
 		}
+	}
+
+	@SuppressWarnings("MissingPermission")
+
+	private void getLastLocation() {
+		mFusedLocationClient.getLastLocation()
+				.addOnCompleteListener(this, new OnCompleteListener<Location>() {
+					@Override
+					public void onComplete(@NonNull Task<Location> task) {
+						if (task.isSuccessful() && task.getResult() != null) {
+							mLastLocation = task.getResult();
+						} else {
+							Log.w(TAG, "getLastLocation:exception", task.getException());
+						}
+					}
+				});
 	}
 
 	public void handleAgreedToPrivacyPolicyButton(View view) {
@@ -215,6 +248,9 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 				} else {
 					onPermissionDenied(requestCode);
 				}
+				break;
+			case REQUEST_PERMISSIONS_REQUEST_CODE:
+				getLastLocation();
 				break;
 		}
 	}
