@@ -2015,5 +2015,6 @@
      <string name="PetaByte_short">PB</string>
      <string name="ExaByte_short">EB</string>
     <!--  -->
+    <string name="available_language_for_your_location">The available locales in your location:‎</string>
 
 </resources>

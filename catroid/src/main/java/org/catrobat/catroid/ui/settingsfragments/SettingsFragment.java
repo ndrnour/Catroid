@@ -23,17 +23,11 @@
 package org.catrobat.catroid.ui.settingsfragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -42,12 +36,8 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
-
-import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
@@ -60,18 +50,15 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_CODE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
-import static org.catrobat.catroid.ui.MainMenuActivity.mFusedLocationClient;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -133,8 +120,7 @@ public class SettingsFragment extends PreferenceFragment {
 		addPreferencesFromResource(R.xml.preferences);
 		setAnonymousCrashReportPreference();
 		setHintPreferences();
-		//setLanguage();
-		setLanguageOnLocation(getActivity());
+		setLanguage();
 
 		screen = getPreferenceScreen();
 
@@ -494,7 +480,7 @@ public class SettingsFragment extends PreferenceFragment {
 		getSharedPreferences(context).edit().clear().commit();
 	}
 
-	/*private void setLanguage() {
+	private void setLanguage() {
 		final List<String> languagesNames = new ArrayList<>();
 		for (String aLanguageCode : LANGUAGE_CODE) {
 			switch (aLanguageCode) {
@@ -531,7 +517,7 @@ public class SettingsFragment extends PreferenceFragment {
 				return true;
 			}
 		});
-	}*/
+	}
 
 	public static void setToChosenLanguage(Activity activity) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
@@ -573,92 +559,5 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void removeLanguageSharedPreference(Context mContext) {
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
 		editor.remove(LANGUAGE_TAG_KEY).commit();
-	}
-
-	private void setLanguageOnLocation(final Context context) {
-		LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-		Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-		double longitude = location.getLongitude();
-		double latitude = location.getLatitude();
-
-		ArrayList<String> localesWithSameCountryCode;
-		List<String> languagesNames;
-
-		Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-		List<Address> listAddresses = null;
-		try {
-			listAddresses = geocoder.getFromLocation(latitude, longitude, 1);
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.e(TAG, e.getMessage());
-		}
-		Multimap<String, String> stringMap = Multilingual.localesHashMap();
-
-		final String countryCode = listAddresses.get(0).getCountryCode();
-		String languageCode = "";
-
-		localesWithSameCountryCode = new ArrayList<>();
-		for (Map.Entry<String, String> entry : stringMap.entries()) {
-			if (entry.getKey().equals(countryCode)) {
-				localesWithSameCountryCode.add(entry.getValue());
-				languageCode = entry.getValue();
-				Log.i("value", languageCode);
-			}
-		}
-		languagesNames = new ArrayList<>();
-		for (String aLanguageCode : localesWithSameCountryCode) {
-			if (aLanguageCode.length() == 2) {
-				languagesNames.add(new Locale(aLanguageCode).getDisplayName(new Locale(aLanguageCode)));
-			} else {
-				String language = aLanguageCode.substring(0, 2);
-				String country = aLanguageCode.substring(4);
-				languagesNames.add(new Locale(language, country).getDisplayName(new Locale(language, country)));
-			}
-		}
-
-		final String[] languages = new String[languagesNames.size()];
-		languagesNames.toArray(languages);
-
-		final String[] stringA = new String[localesWithSameCountryCode.size()];
-		localesWithSameCountryCode.toArray(stringA);
-
-		final ListPreference listPreference = (ListPreference) findPreference(SETTINGS_MULTILINGUAL);
-		listPreference.setEntries(languages);
-		listPreference.setEntryValues(stringA);
-		listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				String selectedLanguageCode = newValue.toString();
-				setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageCode);
-				startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
-				getActivity().finishAffinity();
-				return true;
-			}
-		});
-	}
-//
-//	private boolean isLocationEnabled() {
-//		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-//				locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//	}
-
-	private void showAlert(Context context) {
-		final AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		dialog.setTitle("Enable Location")
-				.setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
-						"use this app")
-				.setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-						Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-						startActivity(myIntent);
-					}
-				})
-				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-					}
-				});
-		dialog.show();
 	}
 }

@@ -14,7 +14,7 @@ import com.google.common.collect.Multimap;
 import java.util.Locale;
 
 
-class Multilingual {
+public class Multilingual {
 	private static final String LANGUAGE_TAG_KEY = "applicationLanguage";
 	private static final String COUNTRY_TAG_KEY = "applicationCountry";
 
@@ -39,14 +39,14 @@ class Multilingual {
 		resources.updateConfiguration(conf, displayMetrics);
 	}
 
-	static void setLanguageSharedPreference(Context context, String langTag, String countryTag) {
+	public static void setLanguageSharedPreference(Context context, String langTag, String countryTag) {
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		editor.putString(LANGUAGE_TAG_KEY, langTag);
 		editor.putString(COUNTRY_TAG_KEY, countryTag);
 		editor.apply();
 	}
 
-	static void setToChosenLanguage(Activity activity) {
+	public static void setToChosenLanguage(Activity activity) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
 		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
 		String countryTag = sharedPreferences.getString(COUNTRY_TAG_KEY, "");
@@ -557,7 +557,7 @@ class Multilingual {
 		localesHashMap.put("CA", "en");
 	}
 
-	static Multimap<String,String> localesHashMap() {
+	public static Multimap<String,String> localesHashMap() {
 		return localesHashMap;
 	}
 }

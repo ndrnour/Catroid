@@ -24,9 +24,15 @@ package org.catrobat.catroid.ui;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -52,6 +58,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -68,6 +75,7 @@ import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
+import org.catrobat.catroid.ui.settingsfragments.Multilingual;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ScreenValueHandler;
@@ -79,7 +87,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
@@ -102,6 +113,11 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 	public static FusedLocationProviderClient mFusedLocationClient;
 	protected Location mLastLocation;
 
+	private LocationManager locationManager;
+	private SharedPreferences preferences;
+	private SharedPreferences.Editor editor;
+	String re;
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -111,8 +127,10 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SettingsFragment.setToChosenLanguage(this);
+		Multilingual.setToChosenLanguage(this);
 		mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		editor = preferences.edit();
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
@@ -125,6 +143,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 		} else {
 			setContentView(R.layout.privacy_policy_view);
 		}
+		setLangOnLocation();
 	}
 
 	@SuppressWarnings("MissingPermission")
@@ -337,6 +356,11 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 				Utils.logoutUser(this);
 				ToastUtil.showSuccess(this, R.string.logout_successful);
 				break;
+			case R.id.location:
+				editor.remove("RE").apply();
+				startActivity(new Intent(this, MainMenuActivity.class));
+				finishAffinity();
+				break;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -377,6 +401,84 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 			}
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
+	private void setLangOnLocation () {
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		assert locationManager != null;
+		Location locations = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		List<String> providerList = locationManager.getAllProviders();
+
+		re = preferences.getString("RE", "");
+		if (null != locations && null != providerList && providerList.size() > 0) {
+
+			double longitude = locations.getLongitude();
+			double latitude = locations.getLatitude();
+
+			Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+			try {
+				List<Address> listAddresses = geocoder.getFromLocation(latitude, longitude, 1);
+				Multimap<String, String> stringMap = Multilingual.localesHashMap();
+
+				if (null != listAddresses && listAddresses.size() > 0) {
+					final String countryCode = listAddresses.get(0).getCountryCode();
+					String languageCode = "";
+
+					ArrayList<String> localesWithSameCountryCode = new ArrayList<>();
+					for (Map.Entry<String, String> entry : stringMap.entries()) {
+						if (entry.getKey().equals(countryCode)) {
+							localesWithSameCountryCode.add(entry.getValue());
+							languageCode = entry.getValue();
+							Log.i("value", languageCode);
+						}
+					}
+
+					if (localesWithSameCountryCode.size() == 1) {
+						Multilingual.setLanguageSharedPreference(getBaseContext(), languageCode, countryCode);
+						Locale locationLocale = new Locale(languageCode, countryCode);
+						Multilingual.updateLocale(this, locationLocale);
+
+					} else if (localesWithSameCountryCode.size() > 1) {
+						if (!re.equals("NO")) {
+							// setup the alert builder
+							AlertDialog.Builder builder = new AlertDialog.Builder(this);
+							builder.setTitle(R.string.available_language_for_your_location);
+
+							// add a list
+							ArrayList<String> localeNames = new ArrayList<>();
+							for (String langCode : localesWithSameCountryCode) {
+								localeNames.add(new Locale(langCode, countryCode).getDisplayLanguage(new Locale(langCode, countryCode)));
+							}
+							final String[] stringName = new String[localeNames.size()];
+							localeNames.toArray(stringName);
+
+							final String[] stringA = new String[localesWithSameCountryCode.size()];
+							localesWithSameCountryCode.toArray(stringA);
+
+							builder.setItems(stringName, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									Multilingual.setLanguageSharedPreference(getBaseContext(), stringA[which], countryCode);
+									Locale locale = new Locale(stringA[which], countryCode);
+									editor.putString("RE", "NO").apply();
+									Multilingual.updateLocale(getBaseContext(), locale);
+									startActivity(new Intent(getBaseContext(), MainMenuActivity.class));
+									finishAffinity();
+								}
+							});
+							// create and show the alert dialog
+							AlertDialog dialog = builder.create();
+							dialog.show();
+						}
+					}
+					}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			Log.e(TAG, String.valueOf(locations));
+			Log.e(TAG, String.valueOf(providerList));
 		}
 	}
 }
