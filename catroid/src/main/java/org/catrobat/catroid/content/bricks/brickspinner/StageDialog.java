@@ -38,7 +38,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 public class StageDialog extends Dialog implements View.OnClickListener {
 	private static final String TAG = StageDialog.class.getSimpleName();
@@ -118,7 +118,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
-			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
+			SnackbarUtil.showErrorSnackBar(stageActivity, stageActivity.getResources().getString(R.string
+					.cast_error_not_connected_msg));
 			return;
 		}
 
@@ -130,7 +131,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
-			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
+			SnackbarUtil.showErrorSnackBar(stageActivity, stageActivity.getResources().getString(R.string
+					.cast_error_not_connected_msg));
 			return;
 		}
 
@@ -143,14 +145,14 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
-			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
+			SnackbarUtil.showErrorSnackBar(stageActivity, stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
 		}
 
 		if (stageListener.makeManualScreenshot()) {
-			ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
+			SnackbarUtil.showSuccessSnackBar(stageActivity, R.string.notification_screenshot_ok);
 		} else {
-			ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
+			SnackbarUtil.showErrorSnackBar(stageActivity, R.string.error_screenshot_failed);
 		}
 	}
 

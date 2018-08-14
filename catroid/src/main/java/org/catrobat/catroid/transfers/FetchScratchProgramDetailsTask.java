@@ -33,7 +33,6 @@ import com.google.common.base.Preconditions;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ScratchDataFetcher;
 import org.catrobat.catroid.web.WebScratchProgramException;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -47,11 +46,21 @@ public class FetchScratchProgramDetailsTask extends AsyncTask<Long, Void, Scratc
 		void onPostExecute(ScratchProgramData programData);
 	}
 
+	public interface OnErrorFetchingScratchProgramListener {
+		void onErrorFetchingScratchProgram (String errorMsg);
+	}
+
 	private static final String TAG = FetchScratchProgramDetailsTask.class.getSimpleName();
 
 	private Context context;
 	private Handler handler;
 	private ScratchProgramListTaskDelegate delegate = null;
+
+	public void setOnErrorFetchingScratchProgramListener(OnErrorFetchingScratchProgramListener listener) {
+		this.onErrorFetchingScratchProgramListener = listener;
+	}
+
+	private OnErrorFetchingScratchProgramListener onErrorFetchingScratchProgramListener;
 	private ScratchDataFetcher fetcher = null;
 
 	public FetchScratchProgramDetailsTask setContext(final Context context) {
@@ -116,7 +125,8 @@ public class FetchScratchProgramDetailsTask extends AsyncTask<Long, Void, Scratc
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						ToastUtil.showError(context, finalUserErrorMessage);
+						if (onErrorFetchingScratchProgramListener != null)
+							onErrorFetchingScratchProgramListener.onErrorFetchingScratchProgram(finalUserErrorMessage);
 					}
 				});
 
@@ -137,7 +147,9 @@ public class FetchScratchProgramDetailsTask extends AsyncTask<Long, Void, Scratc
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ToastUtil.showError(context, context.getString(R.string.error_request_timeout));
+				String errorMsg = context.getString(R.string.error_request_timeout);
+				if (onErrorFetchingScratchProgramListener != null)
+					onErrorFetchingScratchProgramListener.onErrorFetchingScratchProgram(errorMsg);
 			}
 		});
 		return null;

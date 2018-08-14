@@ -36,7 +36,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -106,7 +106,7 @@ public class ScratchReconvertDialog extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						Log.d(TAG, "User canceled dialog by pressing Cancel-button");
-						ToastUtil.showError(context, R.string.notification_reconvert_download_program_cancel);
+						SnackbarUtil.showErrorSnackBar(getActivity(), R.string.notification_reconvert_download_program_cancel);
 						if (callback != null) {
 							callback.onUserCanceledConversion();
 						}
@@ -137,7 +137,7 @@ public class ScratchReconvertDialog extends DialogFragment {
 					return okButtonResult;
 				} else if (keyCode == KeyEvent.KEYCODE_BACK) {
 					Log.d(TAG, "User canceled dialog by pressing Back-button");
-					ToastUtil.showError(context, R.string.notification_reconvert_download_program_cancel);
+					SnackbarUtil.showErrorSnackBar(getActivity(), R.string.notification_reconvert_download_program_cancel);
 					if (callback != null) {
 						callback.onUserCanceledConversion();
 					}
@@ -156,7 +156,7 @@ public class ScratchReconvertDialog extends DialogFragment {
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 		Log.d(TAG, "User canceled dialog by clicking outside of the Dialog fragment");
-		ToastUtil.showError(context, R.string.notification_reconvert_download_program_cancel);
+		SnackbarUtil.showErrorSnackBar(getActivity(), R.string.notification_reconvert_download_program_cancel);
 		if (callback != null) {
 			callback.onUserCanceledConversion();
 		}

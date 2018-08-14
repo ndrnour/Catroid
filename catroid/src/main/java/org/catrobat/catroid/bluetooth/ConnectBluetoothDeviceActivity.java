@@ -49,7 +49,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.Set;
 
@@ -187,7 +187,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 				BluetoothDeviceService btDeviceService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 				btDeviceService.deviceConnected(btDevice);
 			} else {
-				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
+				SnackbarUtil.showErrorSnackBar(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
 			}
 
 			setResult(result);
@@ -299,7 +299,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 
 		int bluetoothState = btManager.activateBluetooth();
 		if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
-			ToastUtil.showError(this, R.string.notification_blueth_err);
+			SnackbarUtil.showErrorSnackBar(this, R.string.notification_blueth_err);
 			setResult(Activity.RESULT_CANCELED);
 			finish();
 		}
@@ -316,7 +316,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 				listAndSelectDevices();
 				break;
 			case Activity.RESULT_CANCELED:
-				ToastUtil.showError(this, R.string.notification_blueth_err);
+				SnackbarUtil.showErrorSnackBar(this, R.string.notification_blueth_err);
 				setResult(Activity.RESULT_CANCELED);
 				finish();
 				break;

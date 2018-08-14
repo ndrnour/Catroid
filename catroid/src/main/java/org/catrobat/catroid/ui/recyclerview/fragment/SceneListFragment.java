@@ -40,7 +40,7 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -117,7 +117,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 		}
 
 		if (packedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_scenes,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.packed_scenes,
 					packedItemCnt,
 					packedItemCnt));
 			switchToBackpack();
@@ -153,7 +153,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 		}
 
 		if (copiedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_scenes,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.copied_scenes,
 					copiedItemCnt,
 					copiedItemCnt));
 		}
@@ -180,7 +180,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 			adapter.remove(item);
 		}
 
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scenes,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.deleted_scenes,
 				selectedItems.size(),
 				selectedItems.size()));
 		finishActionMode();
@@ -231,7 +231,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 			if (sceneController.rename(item, name)) {
 				ProjectManager.getInstance().saveProject(getActivity());
 			} else {
-				ToastUtil.showError(getActivity(), R.string.error_rename_scene);
+				SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_rename_scene);
 			}
 		}
 		finishActionMode();

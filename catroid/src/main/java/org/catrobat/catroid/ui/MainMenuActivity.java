@@ -66,7 +66,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ScreenValueHandler;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -269,10 +269,10 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 						startActivity(new Intent(Intent.ACTION_VIEW,
 								Uri.parse("market://details?id=" + getPackageName())));
 					} catch (ActivityNotFoundException e) {
-						ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
+						SnackbarUtil.showErrorSnackBar(this, R.string.main_menu_play_store_not_installed);
 					}
 				} else {
-					ToastUtil.showError(this, R.string.error_internet_connection);
+					SnackbarUtil.showErrorSnackBar(this, R.string.error_internet_connection);
 				}
 				break;
 			case R.id.menu_terms_of_use:
@@ -288,7 +288,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 				if (Utils.isNetworkAvailable(this)) {
 					startActivity(new Intent(this, ScratchConverterActivity.class));
 				} else {
-					ToastUtil.showError(this, R.string.error_internet_connection);
+					SnackbarUtil.showErrorSnackBar(this, R.string.error_internet_connection);
 				}
 				break;
 			case R.id.settings:
@@ -299,7 +299,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 				break;
 			case R.id.menu_logout:
 				Utils.logoutUser(this);
-				ToastUtil.showSuccess(this, R.string.logout_successful);
+				SnackbarUtil.showSuccessSnackBar(this, R.string.logout_successful);
 				break;
 			default:
 				return super.onOptionsItemSelected(item);

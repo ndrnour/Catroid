@@ -31,7 +31,6 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -99,7 +98,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (Utils.checkForNetworkError(exception)) {
-			ToastUtil.showError(context, R.string.error_internet_connection);
+			onLoginListener.onNetworkError();
 			return;
 		}
 
@@ -113,7 +112,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (userLoggedIn) {
-			ToastUtil.showSuccess(context, R.string.user_logged_in);
+			onLoginListener.onUserLoggedIn();
 		}
 
 		if (onLoginListener != null) {
@@ -126,5 +125,9 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 		void onLoginComplete();
 
 		void onLoginFailed(String msg);
+
+		void onUserLoggedIn();
+
+		void onNetworkError();
 	}
 }

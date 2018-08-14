@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -73,7 +73,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 		}
 
 		if (unpackedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_looks,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.unpacked_looks,
 					unpackedItemCnt,
 					unpackedItemCnt));
 			getActivity().finish();
@@ -99,7 +99,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 			}
 			adapter.remove(item);
 		}
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_looks,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.deleted_looks,
 				selectedItems.size(),
 				selectedItems.size()));
 

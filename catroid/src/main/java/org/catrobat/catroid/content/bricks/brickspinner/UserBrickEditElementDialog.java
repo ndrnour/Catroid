@@ -42,7 +42,7 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,7 +189,7 @@ public class UserBrickEditElementDialog extends DialogFragment {
 				for (String takenName : takenVariables) {
 					if (editable.toString().equals(takenName)) {
 						positiveButton.setEnabled(false);
-						ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
+						SnackbarUtil.showErrorSnackBar(getActivity(), R.string.formula_editor_existing_variable);
 						break;
 					}
 				}

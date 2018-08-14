@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchJobAdapter;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 public class ScratchProgramsFragment extends Fragment implements
 		ScratchConverterActivity.OnJobListListener,
@@ -102,7 +102,7 @@ public class ScratchProgramsFragment extends Fragment implements
 	@Override
 	public void onItemClick(Job item) {
 		if (item.getState() == Job.State.FAILED) {
-			ToastUtil.showError(getActivity(), R.string.error_cannot_open_failed_scratch_program);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_cannot_open_failed_scratch_program);
 			return;
 		}
 
@@ -155,7 +155,7 @@ public class ScratchProgramsFragment extends Fragment implements
 			startActivity(intent);
 		} else {
 			setShowProgressBar(false);
-			ToastUtil.showError(getActivity(), message);
+			SnackbarUtil.showErrorSnackBar(getActivity(), message);
 		}
 	}
 

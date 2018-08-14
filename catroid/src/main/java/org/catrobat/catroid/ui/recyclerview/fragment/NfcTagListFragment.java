@@ -39,7 +39,7 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		Intent nfcIntent = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
-			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.nfc_not_activated);
 
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
@@ -68,7 +68,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 				startActivity(intent);
 			}
 		} else if (nfcAdapter == null) {
-			ToastUtil.showError(getActivity(), R.string.no_nfc_available);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.no_nfc_available);
 		}
 	}
 
@@ -155,7 +155,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 			adapter.add(newItem);
 		}
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_nfc_tags,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.copied_nfc_tags,
 				selectedItems.size(),
 				selectedItems.size()));
 		finishActionMode();
@@ -183,7 +183,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 			adapter.remove(item);
 		}
 
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_nfc_tags,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.deleted_nfc_tags,
 				selectedItems.size(),
 				selectedItems.size()));
 		finishActionMode();

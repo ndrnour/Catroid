@@ -70,6 +70,38 @@ public final class SnackbarUtil {
 		}
 	}
 
+	public static void showSuccessSnackBar(final Activity activity, @StringRes int messageId) {
+		SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
+				.withMessage(activity.getString(messageId))
+				.withBackgroundColorId(R.color.material_green)
+				.withDuration(SnackBar.MED_SNACK);
+		snackBarBuilder.show();
+	}
+
+	public static void showSuccessSnackBar(final Activity activity, String message) {
+		SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
+				.withMessage(message)
+				.withBackgroundColorId(R.color.material_green)
+				.withDuration(SnackBar.MED_SNACK);
+		snackBarBuilder.show();
+	}
+
+	public static void showErrorSnackBar(final Activity activity, @StringRes int messageId) {
+		SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
+				.withMessage(activity.getString(messageId))
+				.withBackgroundColorId(R.color.material_red)
+				.withDuration(SnackBar.MED_SNACK);
+		snackBarBuilder.show();
+	}
+
+	public static void showErrorSnackBar(final Activity activity, String message) {
+		SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
+				.withMessage(message)
+				.withBackgroundColorId(R.color.material_red)
+				.withDuration(SnackBar.MED_SNACK);
+		snackBarBuilder.show();
+	}
+
 	public static void hideActiveSnack() {
 		if (activeSnack != null) {
 			activeSnack.setVisibility(View.INVISIBLE);

@@ -44,7 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -224,7 +224,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	private void startActionMode(@ActionModeType int type) {
 		if (adapter.getItems().isEmpty()) {
-			ToastUtil.showError(getActivity(), R.string.am_empty_list);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.am_empty_list);
 		} else {
 			actionModeType = type;
 			actionMode = getActivity().startActionMode(this);

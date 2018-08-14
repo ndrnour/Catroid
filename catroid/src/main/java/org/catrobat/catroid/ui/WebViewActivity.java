@@ -48,7 +48,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.PathBuilder;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.UnsupportedEncodingException;
@@ -197,7 +197,7 @@ public class WebViewActivity extends BaseActivity {
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					startActivity(intent);
 				} else {
-					ToastUtil.showError(getBaseContext(), R.string.error_no_whatsapp);
+					SnackbarUtil.showErrorSnackBar(WebViewActivity.this, R.string.error_no_whatsapp);
 				}
 				return true;
 			} else if (checkIfWebViewVisitExternalWebsite(url)) {
@@ -217,7 +217,7 @@ public class WebViewActivity extends BaseActivity {
 			} else {
 				errorMessage = R.string.error_unknown_error;
 			}
-			ToastUtil.showError(getBaseContext(), errorMessage);
+			SnackbarUtil.showErrorSnackBar(WebViewActivity.this, errorMessage);
 			finish();
 		}
 

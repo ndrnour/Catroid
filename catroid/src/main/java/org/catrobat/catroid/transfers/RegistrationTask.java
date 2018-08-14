@@ -108,7 +108,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (Utils.checkForNetworkError(exception)) {
-			ToastUtil.showError(context, R.string.error_internet_connection);
+			onRegistrationListener.onNetworkError();
 			return;
 		}
 
@@ -122,7 +122,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (userRegistered) {
-			ToastUtil.showSuccess(context, R.string.new_user_registered);
+			onRegistrationListener.onUserRegistered();
 		}
 
 		if (onRegistrationListener != null) {
@@ -135,5 +135,9 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		void onRegistrationComplete();
 
 		void onRegistrationFailed(String msg);
+
+		void onUserRegistered();
+
+		void onNetworkError();
 	}
 }

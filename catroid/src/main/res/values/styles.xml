@@ -554,4 +554,12 @@
         <item name="android:layout_marginTop">20dp</item>
     </style>
 
+    <style name="Error_Theme_SnackBarWrapper">
+        <item name="android:background">@color/material_red</item>
+    </style>
+
+    <style name="Success_Theme_SnackBarWrapper">
+        <item name="android:background">@color/material_green</item>
+    </style>
+
 </resources>

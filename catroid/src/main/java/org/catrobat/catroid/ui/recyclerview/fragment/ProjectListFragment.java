@@ -49,7 +49,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -165,7 +165,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			adapter.remove(item);
 		}
 
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_projects,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.deleted_projects,
 				selectedItems.size(),
 				selectedItems.size()));
 		finishActionMode();
@@ -210,7 +210,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 				projectManager.loadProject(name, getActivity());
 			} catch (ProjectException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
-				ToastUtil.showError(getActivity(), R.string.error_rename_incompatible_project);
+				SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_rename_incompatible_project);
 			}
 		}
 
@@ -224,7 +224,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			adapter.setItems(getItemList());
 			setShowProgressBar(false);
 		} else {
-			ToastUtil.showError(getActivity(), R.string.wtf_error);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.wtf_error);
 			getActivity().finish();
 		}
 	}
@@ -237,7 +237,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			startActivity(intent);
 		} else {
 			setShowProgressBar(false);
-			ToastUtil.showError(getActivity(), message);
+			SnackbarUtil.showErrorSnackBar(getActivity(), message);
 		}
 	}
 
@@ -246,7 +246,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		if (success) {
 			adapter.setItems(getItemList());
 		} else {
-			ToastUtil.showError(getActivity(), R.string.error_copy_project);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_copy_project);
 		}
 		setShowProgressBar(false);
 	}

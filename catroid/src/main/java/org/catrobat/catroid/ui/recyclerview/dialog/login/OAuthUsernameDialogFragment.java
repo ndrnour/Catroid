@@ -174,6 +174,11 @@ public class OAuthUsernameDialogFragment extends DialogFragment implements
 	}
 
 	@Override
+	public void onFacebookUserLoggedIn() {
+		// No need to do anything here
+	}
+
+	@Override
 	public void onGoogleExchangeCodeComplete() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		GoogleLogInTask googleLogInTask = new GoogleLogInTask(getActivity(),
@@ -190,5 +195,10 @@ public class OAuthUsernameDialogFragment extends DialogFragment implements
 	public void onGoogleServerLogInComplete() {
 		signInCompleteListener.onLoginSuccessful(null);
 		dismiss();
+	}
+
+	@Override
+	public void onGoogleUserLoggedIn() {
+		// No need to do anything here
 	}
 }

@@ -70,7 +70,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
-import org.catrobat.catroid.utils.ToastUtil;
 
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
 
@@ -373,7 +372,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		if (requestCode == REQUEST_GPS && resultCode == Activity.RESULT_CANCELED && SensorHandler.gpsAvailable()) {
 			showComputeDialog(formulaElementForComputeDialog);
 		} else {
-			ToastUtil.showError(getActivity(), R.string.error_gps_not_available);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_gps_not_available);
 		}
 	}
 
@@ -508,15 +507,15 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			confirmSwitchEditTextTimeStamp[0] = 0;
 			confirmSwitchEditTextTimeStamp[1] = 0;
 			confirmSwitchEditTextCounter = 0;
-			ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_discarded);
+			SnackbarUtil.showSuccessSnackBar(getActivity(), R.string.formula_editor_changes_discarded);
 			return true;
 		} else {
 			switch (errorType) {
 				case InternFormulaParser.PARSER_INPUT_SYNTAX_ERROR:
-					ToastUtil.showError(getActivity(), R.string.formula_editor_parse_fail);
+					SnackbarUtil.showErrorSnackBar(getActivity(), R.string.formula_editor_parse_fail);
 					break;
 				case InternFormulaParser.PARSER_STACK_OVERFLOW:
-					ToastUtil.showError(getActivity(), R.string.formula_editor_parse_fail_formula_too_long);
+					SnackbarUtil.showErrorSnackBar(getActivity(), R.string.formula_editor_parse_fail_formula_too_long);
 					break;
 			}
 			return false;
@@ -525,7 +524,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void promptSave() {
 		if (hasFormulaBeenChanged) {
-			ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
+			SnackbarUtil.showSuccessSnackBar(getActivity(), R.string.formula_editor_changes_saved);
 			hasFormulaBeenChanged = false;
 		}
 		exitFormulaEditorFragment();
@@ -540,7 +539,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							ToastUtil.showError(getActivity(), R.string.formula_editor_changes_discarded);
+							SnackbarUtil.showErrorSnackBar(getActivity(), R.string.formula_editor_changes_discarded);
 							onUserDismiss();
 						}
 					})
@@ -549,7 +548,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							if (saveFormulaIfPossible()) {
-								ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
+								SnackbarUtil.showSuccessSnackBar(getActivity(), R.string.formula_editor_changes_saved);
 								hasFormulaBeenChanged = false;
 								onUserDismiss();
 							}
@@ -565,7 +564,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private void endFormulaEditor() {
 		if (formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {
-				ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
+				SnackbarUtil.showSuccessSnackBar(getActivity(), R.string.formula_editor_changes_saved);
 				hasFormulaBeenChanged = false;
 				onUserDismiss();
 			}

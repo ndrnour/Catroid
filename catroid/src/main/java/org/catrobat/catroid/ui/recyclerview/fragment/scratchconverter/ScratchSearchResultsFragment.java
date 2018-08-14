@@ -52,7 +52,7 @@ import org.catrobat.catroid.ui.ScratchProgramDetailsActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchProgramAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ScratchDataFetcher;
 import org.catrobat.catroid.web.ServerCalls;
@@ -133,7 +133,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 		@Override
 		public void onPostExecute(ScratchSearchResult result) {
 			if (result == null) {
-				ToastUtil.showError(getActivity(), R.string.search_failed);
+				SnackbarUtil.showErrorSnackBar(getActivity(), R.string.search_failed);
 			} else if (result.getProgramDataList() != null) {
 				adapter.setItems(result.getProgramDataList());
 				//TODO: potentially cache results.
@@ -288,7 +288,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	private void startActionMode(@ActionModeType int type) {
 		if (adapter.getItems().isEmpty()) {
-			ToastUtil.showError(getActivity(), R.string.am_empty_list);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.am_empty_list);
 			resetActionModeParameters();
 		} else {
 			actionModeType = type;
@@ -306,7 +306,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	private void convertItems(List<ScratchProgramData> selectedItems) {
 		if (conversionManager.getNumberOfJobsInProgress() > Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT) {
-			ToastUtil.showError(getActivity(), getResources().getQuantityString(
+			SnackbarUtil.showErrorSnackBar(getActivity(), getResources().getQuantityString(
 					R.plurals.error_cannot_convert_more_than_x_programs,
 					Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT,
 					Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT));
@@ -318,7 +318,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 		for (ScratchProgramData item : selectedItems) {
 			if (Utils.isDeprecatedScratchProgram(item)) {
 				DateFormat dateFormat = DateFormat.getDateInstance();
-				ToastUtil.showError(getActivity(), getString(R.string.error_cannot_convert_deprecated_scratch_program_x_x,
+				SnackbarUtil.showErrorSnackBar(getActivity(), getString(R.string.error_cannot_convert_deprecated_scratch_program_x_x,
 						item.getTitle(), dateFormat.format(Utils.getScratchSecondReleasePublishedDate())));
 				continue;
 			}
@@ -331,7 +331,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 		}
 
 		if (counter > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(
 					R.plurals.scratch_conversion_scheduled_x,
 					counter,
 					counter));

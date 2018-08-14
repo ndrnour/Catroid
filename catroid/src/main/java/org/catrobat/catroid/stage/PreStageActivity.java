@@ -70,7 +70,7 @@ import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.NetworkAlertDialog;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FlashUtil;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
@@ -293,11 +293,11 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			} else {
 
 				if (!SettingsFragment.isCastSharedPreferenceEnabled(this)) {
-					ToastUtil.showError(this, getString(R.string.cast_enable_cast_feature));
+					SnackbarUtil.showErrorSnackBar(this, getString(R.string.cast_enable_cast_feature));
 				} else if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
-					ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
+					SnackbarUtil.showErrorSnackBar(this, getString(R.string.cast_error_not_connected_msg));
 				} else {
-					ToastUtil.showError(this, getString(R.string.cast_error_cast_bricks_in_no_cast_project));
+					SnackbarUtil.showErrorSnackBar(this, getString(R.string.cast_error_cast_bricks_in_no_cast_project));
 				}
 				resourceFailed();
 			}
@@ -364,7 +364,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (RaspberryPiService.getInstance().connect(host, port)) {
 			resourceInitialized();
 		} else {
-			ToastUtil.showError(this, getString(R.string.error_connecting_to, host, port));
+			SnackbarUtil.showErrorSnackBar(this, getString(R.string.error_connecting_to, host, port));
 			resourceFailed();
 		}
 	}
@@ -636,7 +636,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	private void nfcInitialize() {
 		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
 		if (adapter != null && !adapter.isEnabled()) {
-			ToastUtil.showError(this, R.string.nfc_not_activated);
+			SnackbarUtil.showErrorSnackBar(this, R.string.nfc_not_activated);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
 				startActivity(intent);
@@ -645,7 +645,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 				startActivity(intent);
 			}
 		} else if (adapter == null) {
-			ToastUtil.showError(this, R.string.no_nfc_available);
+			SnackbarUtil.showErrorSnackBar(this, R.string.no_nfc_available);
 			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
 		}
 		resourceInitialized();

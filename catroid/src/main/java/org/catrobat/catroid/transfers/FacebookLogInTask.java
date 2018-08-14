@@ -30,7 +30,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -109,7 +108,7 @@ public class FacebookLogInTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (userSignedIn) {
-			ToastUtil.showSuccess(context, R.string.user_logged_in);
+			onFacebookLogInCompleteListener.onFacebookUserLoggedIn();
 		}
 
 		if (onFacebookLogInCompleteListener != null) {
@@ -132,5 +131,6 @@ public class FacebookLogInTask extends AsyncTask<Void, Void, Boolean> {
 
 	public interface OnFacebookLogInCompleteListener {
 		void onFacebookLogInComplete();
+		void onFacebookUserLoggedIn();
 	}
 }

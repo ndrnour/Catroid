@@ -46,7 +46,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.List;
 
@@ -152,7 +152,7 @@ public class AddBrickFragment extends ListFragment {
 
 			if ((ProjectManager.getInstance().getCurrentProject().isCastProject())
 					&& CastManager.unsupportedBricks.contains(brickToBeAdded.getClass())) {
-				ToastUtil.showError(getActivity(), R.string.error_unsupported_bricks_chromecast);
+				SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_unsupported_bricks_chromecast);
 				return;
 			}
 
@@ -176,7 +176,7 @@ public class AddBrickFragment extends ListFragment {
 			fragmentTransaction.commit();
 		} catch (CloneNotSupportedException e) {
 			Log.e(getTag(), e.getLocalizedMessage());
-			ToastUtil.showError(getActivity(), R.string.error_adding_brick);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_adding_brick);
 		}
 	}
 }

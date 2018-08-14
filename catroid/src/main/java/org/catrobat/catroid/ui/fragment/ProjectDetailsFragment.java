@@ -44,7 +44,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.recyclerview.dialog.SetDescriptionDialogFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,11 +67,11 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 			projectData = (ProjectData) getArguments().getSerializable(SELECTED_PROJECT_KEY);
 			projectData.project = XstreamSerializer.getInstance().loadProject(projectData.projectName, getActivity());
 		} catch (IOException e) {
-			ToastUtil.showError(getActivity(), R.string.error_load_project);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_load_project);
 			Log.e(TAG, Log.getStackTraceString(e));
 			getActivity().onBackPressed();
 		} catch (LoadingProjectException e) {
-			ToastUtil.showError(getActivity(), R.string.error_load_project);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_load_project);
 			Log.e(TAG, Log.getStackTraceString(e));
 			getActivity().onBackPressed();
 		}
@@ -158,7 +158,7 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 		if (XstreamSerializer.getInstance().saveProject(projectData.project)) {
 			this.description.setText(description);
 		} else {
-			ToastUtil.showError(getActivity(), R.string.error_set_description);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_set_description);
 		}
 	}
 }

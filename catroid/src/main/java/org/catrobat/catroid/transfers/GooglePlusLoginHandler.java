@@ -44,7 +44,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.OAuthUsernameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbacks,
@@ -100,7 +100,7 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 					break;
 
 				default:
-					ToastUtil.showError(activity, activity.getString(R.string.error_google_plus_sign_in,
+					SnackbarUtil.showErrorSnackBar(activity, activity.getString(R.string.error_google_plus_sign_in,
 							Integer.toString(result.getStatus().getStatusCode())));
 			}
 		}
@@ -179,6 +179,11 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
 		((SignInCompleteListener) activity).onLoginSuccessful(bundle);
+	}
+
+	@Override
+	public void onGoogleUserLoggedIn() {
+		SnackbarUtil.showSuccessSnackBar(activity, R.string.user_logged_in);
 	}
 
 	@Override

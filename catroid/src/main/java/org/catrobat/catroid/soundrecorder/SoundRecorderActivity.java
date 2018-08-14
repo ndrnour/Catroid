@@ -38,7 +38,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.utils.PathBuilder;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (!Utils.isExternalStorageAvailable()) {
-			ToastUtil.showError(this, R.string.error_no_writiable_external_storage_available);
+			SnackbarUtil.showErrorSnackBar(this, R.string.error_no_writiable_external_storage_available);
 			finish();
 		}
 
@@ -106,13 +106,13 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			setViewsToRecordingState();
 		} catch (IOException e) {
 			Log.e(TAG, "Error recording sound.", e);
-			ToastUtil.showError(this, R.string.soundrecorder_error);
+			SnackbarUtil.showErrorSnackBar(this, R.string.soundrecorder_error);
 		} catch (IllegalStateException e) {
 			Log.e(TAG, "Error recording sound (Other recorder running?).", e);
-			ToastUtil.showError(this, R.string.soundrecorder_error);
+			SnackbarUtil.showErrorSnackBar(this, R.string.soundrecorder_error);
 		} catch (RuntimeException e) {
 			Log.e(TAG, "Device does not support audio or video format.", e);
-			ToastUtil.showError(this, R.string.soundrecorder_error);
+			SnackbarUtil.showErrorSnackBar(this, R.string.soundrecorder_error);
 		}
 	}
 
@@ -132,7 +132,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
 			Log.e(TAG, "Error recording sound.", e);
-			ToastUtil.showError(this, R.string.soundrecorder_error);
+			SnackbarUtil.showErrorSnackBar(this, R.string.soundrecorder_error);
 			setResult(Activity.RESULT_CANCELED);
 		}
 	}

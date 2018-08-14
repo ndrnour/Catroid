@@ -46,7 +46,7 @@ import org.catrobat.catroid.ui.dialogs.ScratchReconvertDialog;
 import org.catrobat.catroid.ui.scratchconverter.BaseInfoViewListener;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 import org.catrobat.catroid.utils.DownloadUtil;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -175,7 +175,7 @@ public class ScratchConversionManager implements ConversionManager {
 				}
 
 				if (!shutdown) {
-					ToastUtil.showError(currentActivity, R.string.connection_lost_or_closed_by_server);
+					SnackbarUtil.showErrorSnackBar(currentActivity, R.string.connection_lost_or_closed_by_server);
 				}
 
 				closeAllActivities();
@@ -189,7 +189,7 @@ public class ScratchConversionManager implements ConversionManager {
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ToastUtil.showError(currentActivity, R.string.connection_failed);
+				SnackbarUtil.showErrorSnackBar(currentActivity, R.string.connection_failed);
 				closeAllActivities();
 			}
 		});
@@ -201,7 +201,7 @@ public class ScratchConversionManager implements ConversionManager {
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ToastUtil.showError(currentActivity, R.string.authentication_failed);
+				SnackbarUtil.showErrorSnackBar(currentActivity, R.string.authentication_failed);
 				closeAllActivities();
 			}
 		});
@@ -319,7 +319,7 @@ public class ScratchConversionManager implements ConversionManager {
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ToastUtil.showSuccess(currentActivity, currentActivity.getString(R.string.scratch_conversion_started));
+				SnackbarUtil.showSuccessSnackBar(currentActivity, currentActivity.getString(R.string.scratch_conversion_started));
 				for (JobViewListener viewListener : getJobViewListeners(job.getJobID())) {
 					viewListener.onJobStarted(job);
 				}
@@ -419,9 +419,10 @@ public class ScratchConversionManager implements ConversionManager {
 						viewListener.onJobFailed(job);
 					}
 					final Resources resources = currentActivity.getResources();
-					ToastUtil.showError(currentActivity, resources.getString(R.string.error_specific_scratch_program_conversion_failed_x, job.getTitle()));
+					SnackbarUtil.showErrorSnackBar(currentActivity, resources.getString(R.string
+							.error_specific_scratch_program_conversion_failed_x, job.getTitle()));
 				} else {
-					ToastUtil.showError(currentActivity, R.string.error_scratch_program_conversion_failed);
+					SnackbarUtil.showErrorSnackBar(currentActivity, R.string.error_scratch_program_conversion_failed);
 					closeAllActivities();
 				}
 			}

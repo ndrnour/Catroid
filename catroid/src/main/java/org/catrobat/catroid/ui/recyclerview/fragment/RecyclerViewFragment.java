@@ -51,7 +51,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -302,7 +302,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 	private void startActionMode(@ActionModeType int type) {
 		if (adapter.getItems().isEmpty()) {
-			ToastUtil.showError(getActivity(), R.string.am_empty_list);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.am_empty_list);
 			resetActionModeParameters();
 		} else {
 			actionModeType = type;

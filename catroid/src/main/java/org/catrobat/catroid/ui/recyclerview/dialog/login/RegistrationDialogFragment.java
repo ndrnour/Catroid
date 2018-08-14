@@ -44,7 +44,7 @@ import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
 import org.catrobat.catroid.transfers.CheckUserNameAvailableTask;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationListener;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 
@@ -117,7 +117,7 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 						@Override
 						public void onCheckUserNameAvailableComplete(Boolean userNameAvailable, String username) {
 							if (userNameAvailable == null) {
-								ToastUtil.showError(getActivity(), R.string.error_internet_connection);
+								SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_internet_connection);
 							} else if (userNameAvailable) {
 								usernameInputLayout.setError(getString(R.string.error_register_username_already_exists));
 							}
@@ -153,7 +153,8 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 						@Override
 						public void onCheckEmailAvailableComplete(Boolean emailAvailable, String provider) {
 							if (emailAvailable == null) {
-								ToastUtil.showError(getActivity(), R.string.error_internet_connection);
+								SnackbarUtil.showErrorSnackBar(getActivity(),
+										R.string.error_internet_connection);
 							} else if (emailAvailable) {
 								emailInputLayout.setError(getString(R.string.error_register_email_exists));
 							}
@@ -268,6 +269,16 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 	public void onRegistrationFailed(String msg) {
 		confirmPasswordEditText.setError(msg);
 		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+	}
+
+	@Override
+	public void onUserRegistered() {
+		SnackbarUtil.showSuccessSnackBar(getActivity(), R.string.new_user_registered);
+	}
+
+	@Override
+	public void onNetworkError() {
+		SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_internet_connection);
 	}
 
 	private void onRegisterButtonClick() {

@@ -46,7 +46,6 @@ import org.catrobat.catroid.ui.recyclerview.controller.LookController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
-import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -110,7 +109,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		}
 
 		if (packedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_looks,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.packed_looks,
 					packedItemCnt,
 					packedItemCnt));
 			switchToBackpack();
@@ -148,7 +147,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		}
 
 		if (copiedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_looks,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.copied_looks,
 					copiedItemCnt,
 					copiedItemCnt));
 		}
@@ -175,7 +174,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 			adapter.remove(item);
 		}
 
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_looks,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.deleted_looks,
 				selectedItems.size(),
 				selectedItems.size()));
 		finishActionMode();

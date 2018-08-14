@@ -37,7 +37,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.OAuthUsernameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 public class FacebookLoginHandler implements FacebookCallback<LoginResult>,
@@ -96,7 +96,7 @@ public class FacebookLoginHandler implements FacebookCallback<LoginResult>,
 
 	@Override
 	public void forceSignIn() {
-		ToastUtil.showError(activity, activity.getString(R.string.error_facebook_session_expired));
+		SnackbarUtil.showErrorSnackBar(activity, activity.getString(R.string.error_facebook_session_expired));
 	}
 
 	@Override
@@ -146,6 +146,11 @@ public class FacebookLoginHandler implements FacebookCallback<LoginResult>,
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.FACEBOOK);
 		((SignInCompleteListener) activity).onLoginSuccessful(bundle);
+	}
+
+	@Override
+	public void onFacebookUserLoggedIn() {
+		SnackbarUtil.showSuccessSnackBar(activity, R.string.user_logged_in);
 	}
 
 	@Override

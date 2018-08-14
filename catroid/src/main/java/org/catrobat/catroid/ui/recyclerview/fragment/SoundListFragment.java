@@ -41,7 +41,6 @@ import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
-import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -98,7 +97,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 		}
 
 		if (packedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_sounds,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.packed_sounds,
 					packedItemCnt,
 					packedItemCnt));
 			switchToBackpack();
@@ -136,7 +135,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 		}
 
 		if (copiedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_sounds,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.copied_sounds,
 					copiedItemCnt,
 					copiedItemCnt));
 		}
@@ -163,7 +162,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 			adapter.remove(item);
 		}
 
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sounds,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.deleted_sounds,
 				selectedItems.size(),
 				selectedItems.size()));
 		finishActionMode();

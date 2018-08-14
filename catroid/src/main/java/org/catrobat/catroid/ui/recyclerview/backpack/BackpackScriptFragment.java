@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScriptAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.List;
 
@@ -67,7 +67,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 		}
 
 		if (unpackedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_scripts,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.unpacked_scripts,
 					unpackedItemCnt,
 					unpackedItemCnt));
 			getActivity().finish();
@@ -89,7 +89,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 			BackpackListManager.getInstance().removeItemFromScriptBackPack(item);
 			adapter.remove(item);
 		}
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scripts,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.deleted_scripts,
 				selectedItems.size(),
 				selectedItems.size()));
 

@@ -60,7 +60,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.adapter.CastDevicesAdapter;
 import org.catrobat.catroid.ui.dialogs.SelectCastDialog;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -404,7 +404,7 @@ public final class CastManager {
 						synchronized (this) {
 							if (currentlyConnecting() && isCastDeviceAvailable) {
 								CastRemoteDisplayLocalService.stopService();
-								ToastUtil.showError(initializingActivity,
+								SnackbarUtil.showErrorSnackBar(initializingActivity,
 										initializingActivity.getString(R.string.cast_connection_timout_msg));
 							}
 						}

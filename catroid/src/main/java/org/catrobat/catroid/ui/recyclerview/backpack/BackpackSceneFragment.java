@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -71,7 +71,7 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 		}
 
 		if (unpackedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_scenes,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.unpacked_scenes,
 					unpackedItemCnt,
 					unpackedItemCnt));
 			getActivity().finish();
@@ -97,7 +97,7 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 			}
 			adapter.remove(item);
 		}
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scenes,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.deleted_scenes,
 				selectedItems.size(),
 				selectedItems.size()));
 

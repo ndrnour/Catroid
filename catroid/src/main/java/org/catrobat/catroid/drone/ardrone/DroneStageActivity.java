@@ -39,7 +39,7 @@ import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 public class DroneStageActivity extends StageActivity implements DroneBatteryChangedReceiverDelegate, DroneEmergencyChangeReceiverDelegate {
 
@@ -50,7 +50,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 
 	private enum EmergencyMethod {
 		NOTHING,
-		TOAST,
+		SNACKBAR,
 		ALERT
 	}
 
@@ -67,7 +67,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				droneEmergencyReceiver = new DroneEmergencyChangeReceiver(this);
 			} catch (RuntimeException runtimeException) {
 				Log.e(TAG, "Failure during drone service startup", runtimeException);
-				ToastUtil.showError(this, R.string.error_no_drone_connected);
+				SnackbarUtil.showErrorSnackBar(this, R.string.error_no_drone_connected);
 				this.finish();
 			}
 		}
@@ -147,7 +147,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 
 		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
 		if (dcs != null && (value < DroneInitializer.DRONE_BATTERY_THRESHOLD) && dcs.getDroneNavData().flying && !droneBatteryMessageShown) {
-			ToastUtil.showError(this, getString(R.string.notification_low_battery_with_value, value));
+			SnackbarUtil.showErrorSnackBar(this, getString(R.string.notification_low_battery_with_value, value));
 			droneBatteryMessageShown = true;
 		}
 	}
@@ -171,13 +171,13 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				break;
 			case NavData.ERROR_STATE_ALERT_VBAT_LOW:
 				messageID = R.string.drone_alert_battery_low;
-				method = EmergencyMethod.TOAST;
+				method = EmergencyMethod.SNACKBAR;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_alert_battery_low));
 				break;
 			case NavData.ERROR_STATE_ALERT_CAMERA:
 			case NavData.ERROR_STATE_EMERGENCY_CAMERA:
 				messageID = R.string.drone_emergency_camera;
-				method = EmergencyMethod.TOAST;
+				method = EmergencyMethod.SNACKBAR;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_emergency_camera));
 				break;
 			case NavData.ERROR_STATE_EMERGENCY_ULTRASOUND:
@@ -192,7 +192,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				break;
 			case NavData.ERROR_STATE_ALERT_VISION:
 				messageID = R.string.drone_alert_vision;
-				method = EmergencyMethod.TOAST;
+				method = EmergencyMethod.SNACKBAR;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_alert_vision));
 				break;
 			case NavData.ERROR_STATE_EMERGENCY_ANGLE_OUT_OF_RANGE:
@@ -224,8 +224,8 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 						.show();
 				break;
 
-			case TOAST:
-				ToastUtil.showError(this, messageID);
+			case SNACKBAR:
+				SnackbarUtil.showErrorSnackBar(this, messageID);
 				break;
 		}
 	}

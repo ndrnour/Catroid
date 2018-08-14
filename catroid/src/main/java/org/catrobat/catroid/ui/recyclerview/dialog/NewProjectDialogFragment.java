@@ -39,7 +39,7 @@ import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -140,7 +140,7 @@ public class NewProjectDialogFragment extends DialogFragment {
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
 			getActivity().startActivity(intent);
 		} catch (IOException e) {
-			ToastUtil.showError(getActivity(), R.string.error_new_project);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_new_project);
 		}
 	}
 }

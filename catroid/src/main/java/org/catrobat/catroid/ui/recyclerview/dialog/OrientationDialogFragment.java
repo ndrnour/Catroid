@@ -36,7 +36,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.io.IOException;
 
@@ -99,7 +99,7 @@ public class OrientationDialogFragment extends DialogFragment {
 			ProjectManager.getInstance().initializeNewProject(name, getActivity(), createEmptyProject, false,
 					createLandscapeProject, createCastProject, false);
 		} catch (IOException e) {
-			ToastUtil.showError(getActivity(), R.string.error_new_project);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_new_project);
 		}
 
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);

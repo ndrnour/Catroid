@@ -41,6 +41,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.WebViewActivity;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.web.ServerCalls;
 
 public class LoginDialogFragment extends DialogFragment implements LoginTask.OnLoginListener {
@@ -167,6 +168,16 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 	public void onLoginFailed(String msg) {
 		passwordEditText.setError(msg);
 		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+	}
+
+	@Override
+	public void onUserLoggedIn() {
+		SnackbarUtil.showSuccessSnackBar(getActivity(), R.string.user_logged_in);
+	}
+
+	@Override
+	public void onNetworkError() {
+		SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_internet_connection);
 	}
 
 	@Override

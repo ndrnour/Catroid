@@ -47,7 +47,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.lang.annotation.Retention;
@@ -178,7 +178,7 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 			startActivity(intent);
 		} else {
 			setShowProgressBar(false);
-			ToastUtil.showError(getActivity(), message);
+			SnackbarUtil.showErrorSnackBar(getActivity(), message);
 		}
 	}
 }

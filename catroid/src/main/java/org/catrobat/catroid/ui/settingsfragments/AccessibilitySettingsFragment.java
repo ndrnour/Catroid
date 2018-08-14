@@ -35,7 +35,7 @@ import android.support.v7.app.AppCompatActivity;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 public class AccessibilitySettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 	public static final String TAG = AccessibilitySettingsFragment.class.getSimpleName();
@@ -75,7 +75,7 @@ public class AccessibilitySettingsFragment extends PreferenceFragment implements
 		if (preferenceChanged) {
 			startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
 			startActivity(new Intent(getActivity().getBaseContext(), SettingsActivity.class));
-			ToastUtil.showSuccess(getActivity(), getString(R.string.accessibility_settings_applied));
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getString(R.string.accessibility_settings_applied));
 			getActivity().finishAffinity();
 		}
 	}

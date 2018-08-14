@@ -44,7 +44,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -79,7 +79,7 @@ public class MarketingActivity extends Activity {
 				try {
 					startActivity(myAppLinkToMarket);
 				} catch (ActivityNotFoundException e) {
-					ToastUtil.showError(MarketingActivity.this, R.string.main_menu_play_store_not_installed);
+					SnackbarUtil.showErrorSnackBar(MarketingActivity.this, R.string.main_menu_play_store_not_installed);
 				}
 			}
 		});
@@ -119,7 +119,7 @@ public class MarketingActivity extends Activity {
 				try {
 					startActivity(myAppLinkToMarket);
 				} catch (ActivityNotFoundException e) {
-					ToastUtil.showError(MarketingActivity.this, R.string.main_menu_play_store_not_installed);
+					SnackbarUtil.showErrorSnackBar(MarketingActivity.this, R.string.main_menu_play_store_not_installed);
 				}
 			}
 		});

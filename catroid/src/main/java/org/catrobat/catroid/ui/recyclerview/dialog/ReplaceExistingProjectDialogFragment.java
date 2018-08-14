@@ -38,7 +38,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
 import org.catrobat.catroid.utils.DownloadUtil;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class ReplaceExistingProjectDialogFragment extends DialogFragment {
@@ -86,7 +86,7 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						ToastUtil.showError(getActivity(), R.string.notification_download_project_cancel);
+						SnackbarUtil.showErrorSnackBar(getActivity(), R.string.notification_download_project_cancel);
 						DownloadUtil.getInstance().downloadCanceled(url);
 					}
 				})

@@ -55,7 +55,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchProgramAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ScratchDataFetcher;
 import org.catrobat.catroid.web.ServerCalls;
@@ -64,10 +64,9 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static android.support.test.InstrumentationRegistry.getContext;
-
 public class ScratchProgramDetailsActivity extends BaseActivity implements
 		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate,
+		FetchScratchProgramDetailsTask.OnErrorFetchingScratchProgramListener,
 		JobViewListener, Client.DownloadCallback,
 		RVAdapter.OnItemClickListener<ScratchProgramData> {
 
@@ -128,7 +127,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 			public void onClick(View v) {
 				final int numberOfJobsInProgress = conversionManager.getNumberOfJobsInProgress();
 				if (numberOfJobsInProgress >= Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT) {
-					ToastUtil.showError(getContext(), getResources().getQuantityString(
+					SnackbarUtil.showErrorSnackBar(ScratchProgramDetailsActivity.this, getResources().getQuantityString(
 							R.plurals.error_cannot_convert_more_than_x_programs,
 							Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT,
 							Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT));
@@ -154,19 +153,20 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		fetchRemixesTask
 				.setContext(this)
 				.setDelegate(this)
-				.setFetcher(dataFetcher);
+				.setFetcher(dataFetcher)
+				.setOnErrorFetchingScratchProgramListener(this);
 		fetchRemixesTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, programData.getId());
 	}
 
 	private void convertProgram(ScratchProgramData item) {
 		if (conversionManager.getNumberOfJobsInProgress() > Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT) {
-			ToastUtil.showError(this, getResources().getQuantityString(
+			SnackbarUtil.showErrorSnackBar(this, getResources().getQuantityString(
 					R.plurals.error_cannot_convert_more_than_x_programs,
 					Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT,
 					Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT));
 		} else if (Utils.isDeprecatedScratchProgram(item)) {
 			DateFormat dateFormat = DateFormat.getDateInstance();
-			ToastUtil.showError(this, getString(R.string.error_cannot_convert_deprecated_scratch_program_x_x,
+			SnackbarUtil.showErrorSnackBar(this, getString(R.string.error_cannot_convert_deprecated_scratch_program_x_x,
 					item.getTitle(), dateFormat.format(Utils.getScratchSecondReleasePublishedDate())));
 		} else if (conversionManager.isJobInProgress(item.getId())) {
 			onJobInProgress();
@@ -175,7 +175,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		} else {
 			conversionManager.convertProgram(item.getId(), item.getTitle(), item.getImage(), false);
 
-			ToastUtil.showSuccess(this, getResources().getQuantityString(
+			SnackbarUtil.showSuccessSnackBar(this, getResources().getQuantityString(
 					R.plurals.scratch_conversion_scheduled_x,
 					1,
 					1));
@@ -235,7 +235,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	public void onPostExecute(final ScratchProgramData programData) {
 		progressDialog.dismiss();
 		if (programData == null) {
-			ToastUtil.showError(this, R.string.error_scratch_project_data_not_available);
+			SnackbarUtil.showErrorSnackBar(this, R.string.error_scratch_project_data_not_available);
 		} else {
 			this.programData = programData;
 			onProgramDataUpdated();
@@ -385,5 +385,10 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		if (jobID == programData.getId()) {
 			onJobNotInProgress();
 		}
+	}
+
+	@Override
+	public void onErrorFetchingScratchProgram(String errorMsg) {
+		SnackbarUtil.showErrorSnackBar(this, errorMsg);
 	}
 }

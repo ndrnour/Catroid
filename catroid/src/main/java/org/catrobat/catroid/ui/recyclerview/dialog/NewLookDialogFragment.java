@@ -49,7 +49,7 @@ import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -119,7 +119,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 				break;
 			case R.id.dialog_new_look_media_library:
 				if (!Utils.isNetworkAvailable(getActivity())) {
-					ToastUtil.showError(getActivity(), R.string.error_internet_connection);
+					SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_internet_connection);
 				} else {
 					intent = new Intent(getActivity(), WebViewActivity.class)
 							.putExtra(WebViewActivity.INTENT_PARAMETER_URL, getMediaLibraryUrl())

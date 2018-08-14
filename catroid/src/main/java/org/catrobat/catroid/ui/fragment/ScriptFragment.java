@@ -65,7 +65,6 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewScriptGroupDialog;
 import org.catrobat.catroid.utils.SnackbarUtil;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.lang.annotation.Retention;
@@ -227,7 +226,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		super.onResume();
 
 		if (!Utils.isExternalStorageAvailable()) {
-			ToastUtil.showError(getActivity(), R.string.error_no_writiable_external_storage_available);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_no_writiable_external_storage_available);
 			return;
 		}
 
@@ -369,7 +368,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 
 	private void startActionMode(@ActionModeType int type) {
 		if (adapter.isEmpty()) {
-			ToastUtil.showError(getActivity(), R.string.am_empty_list);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.am_empty_list);
 		} else {
 			actionModeType = type;
 			actionMode = getActivity().startActionMode(callback);
@@ -422,7 +421,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		try {
 			scriptController.pack(name, adapter.getCheckedBricks());
 			finishActionMode();
-			ToastUtil.showSuccess(getActivity(), getString(R.string.packed_script_group));
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getString(R.string.packed_script_group));
 			switchToBackpack();
 		} catch (CloneNotSupportedException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
@@ -515,7 +514,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 			adapter.notifyDataSetChanged();
 		} catch (CloneNotSupportedException exception) {
 			Log.e(getTag(), "Copying a Brick failed", exception);
-			ToastUtil.showError(getActivity(), R.string.error_copying_brick);
+			SnackbarUtil.showErrorSnackBar(getActivity(), R.string.error_copying_brick);
 		}
 	}
 

@@ -50,7 +50,7 @@ import org.catrobat.catroid.ui.dialogs.SelectTagsDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -124,7 +124,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 			getTags();
 			verifyUserIdentity();
 		} else {
-			ToastUtil.showError(this, message);
+			SnackbarUtil.showErrorSnackBar(this, message);
 			finish();
 		}
 	}
@@ -208,7 +208,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 	@Override
 	public void onTokenCheckComplete(boolean tokenValid, boolean connectionFailed) {
 		if (connectionFailed) {
-			ToastUtil.showError(this, R.string.error_internet_connection);
+			SnackbarUtil.showErrorSnackBar(this, R.string.error_internet_connection);
 			finish();
 		} else if (!tokenValid) {
 			startSignInWorkflow();

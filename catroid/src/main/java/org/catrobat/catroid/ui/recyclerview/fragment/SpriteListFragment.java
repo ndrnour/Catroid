@@ -55,7 +55,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.SnackbarUtil;
-import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -207,7 +206,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		}
 
 		if (packedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_sprites,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.packed_sprites,
 					packedItemCnt,
 					packedItemCnt));
 			switchToBackpack();
@@ -244,7 +243,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		}
 
 		if (copiedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_sprites,
+			SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.copied_sprites,
 					copiedItemCnt,
 					copiedItemCnt));
 		}
@@ -276,7 +275,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			adapter.remove(item);
 		}
 
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,
+		SnackbarUtil.showSuccessSnackBar(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,
 				selectedItems.size(),
 				selectedItems.size()));
 		finishActionMode();
