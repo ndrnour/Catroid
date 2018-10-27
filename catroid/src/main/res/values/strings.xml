@@ -421,6 +421,28 @@
         <item quantity="other">Rename %d Looks</item>
     </plurals>
 
+    <!-- Background Action Mode Titles -->
+    <plurals name="am_pack_backgrounds_title">
+        <item quantity="one">Pack %d Background</item>
+        <item quantity="other">Pack %d Backgrounds</item>
+    </plurals>
+    <plurals name="am_unpack_backgrounds_title">
+        <item quantity="one">Unpack %d Background</item>
+        <item quantity="other">Unpack %d Backgrounds</item>
+    </plurals>
+    <plurals name="am_copy_backgrounds_title">
+        <item quantity="one">Copy %d Background</item>
+        <item quantity="other">Copy %d Backgrounds</item>
+    </plurals>
+    <plurals name="am_delete_backgrounds_title">
+        <item quantity="one">Delete %d Background</item>
+        <item quantity="other">Delete %d Backgrounds</item>
+    </plurals>
+    <plurals name="am_rename_backgrounds_title">
+        <item quantity="one">Rename %d Background</item>
+        <item quantity="other">Rename %d Backgrounds</item>
+    </plurals>
+
     <!-- Sound Action Mode Titles -->
     <plurals name="am_pack_sounds_title">
         <item quantity="one">Pack %d Sound</item>
@@ -507,6 +529,10 @@
         <item quantity="one">Delete this Look?</item>
         <item quantity="other">Delete these Looks?</item>
     </plurals>
+    <plurals name="delete_backgrounds">
+        <item quantity="one">Delete this Background?</item>
+        <item quantity="other">Delete these Backgrounds?</item>
+    </plurals>
     <plurals name="delete_sounds">
         <item quantity="one">Delete this Sound?</item>
         <item quantity="other">Delete these Sounds?</item>
@@ -531,6 +557,7 @@
     <string name="sprite_group_name_label">Group Name</string>
     <string name="script_group_label">Script Group Name</string>
     <string name="look_name_label">Look Name</string>
+    <string name="background_name_label">Background Name</string>
     <string name="sound_name_label">Sound Name</string>
     <string name="nfc_tag_name_label">NFC Tag Name</string>
     <string name="string_label">Text</string>
@@ -550,6 +577,7 @@
     <string name="rename_scene_dialog">Rename Scene</string>
     <string name="rename_sprite_dialog">Rename Object</string>
     <string name="rename_look_dialog">Rename Look</string>
+    <string name="rename_background_dialog">Rename Background</string>
     <string name="rename_sound_dialog">Rename Sound</string>
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
     <string name="rename_data_dialog">Rename</string>
@@ -574,6 +602,10 @@
         <item quantity="one">Backpacked %d Look!</item>
         <item quantity="other">Backpacked %d Looks!</item>
     </plurals>
+    <plurals name="packed_backgrounds">
+        <item quantity="one">Backpacked %d Background!</item>
+        <item quantity="other">Backpacked %d Backgrounds!</item>
+    </plurals>
     <plurals name="packed_sounds">
         <item quantity="one">Backpacked %d Sound!</item>
         <item quantity="other">Backpacked %d Sounds!</item>
@@ -592,6 +624,10 @@
     <plurals name="unpacked_looks">
         <item quantity="one">Unpacked %d Look!</item>
         <item quantity="other">Unpacked %d Looks!</item>
+    </plurals>
+    <plurals name="unpacked_backgrounds">
+        <item quantity="one">Unpacked %d Background!</item>
+        <item quantity="other">Unpacked %d Backgrounds!</item>
     </plurals>
     <plurals name="unpacked_sounds">
         <item quantity="one">Unpacked %d Sound!</item>
@@ -613,6 +649,10 @@
     <plurals name="copied_looks">
         <item quantity="one">Copied %d Look!</item>
         <item quantity="other">Copied %d Looks!</item>
+    </plurals>
+    <plurals name="copied_backgrounds">
+        <item quantity="one">Copied %d Background!</item>
+        <item quantity="other">Copied %d Backgrounds!</item>
     </plurals>
     <plurals name="copied_sounds">
         <item quantity="one">Copied %d Sound!</item>
@@ -638,6 +678,10 @@
     <plurals name="deleted_looks">
         <item quantity="one">Deleted %d Look!</item>
         <item quantity="other">Deleted %d Looks!</item>
+    </plurals>
+    <plurals name="deleted_backgrounds">
+        <item quantity="one">Deleted %d Background!</item>
+        <item quantity="other">Deleted %d Backgrounds!</item>
     </plurals>
     <plurals name="deleted_sounds">
         <item quantity="one">Deleted %d Sound!</item>
@@ -684,7 +728,9 @@
 
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
+    <string name="fragment_background_text_description">Tap \"+\" to add backgrounds</string>
     <string name="default_look_name">Look</string>
+    <string name="default_object_name">My object</string>
     <string name="select_look_from_gallery">Select Image</string>
     <string name="select_look_from_camera">Select Photo</string>
     <!--  -->
@@ -753,6 +799,7 @@
 
     <!-- NewLookDialog -->
     <string name="new_look_dialog_title">Add Look</string>
+    <string name="new_background_dialog_title">Add Background</string>
     <string name="add_look_from_camera">Take Picture</string>
     <string name="add_look_draw_new_image">Draw Image</string>
     <string name="add_look_choose_image">Select Image</string>
@@ -1999,6 +2046,8 @@
         long press.</string>
     <string name="hint_scripts">The script defines the behavior of your object. To add bricks to the script, tap the "+" symbol.</string>
     <string name="hint_looks">Here you can find the different appearances of your object. To add a new look, tap the "+" symbol.</string>
+    <string name="hint_backgrounds">Here you can find the different appearances of your object. To add a new
+        background, tap the "+" symbol.</string>
     <string name="hint_sounds">Here you can add new sounds to your object. Remember using a brick from the sound
         category.</string>
     <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object, tap the "+" symbol.</string>

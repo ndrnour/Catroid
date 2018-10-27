@@ -43,7 +43,8 @@ interface ImportLauncher {
     fun startActivityForResult(requestCode: Int)
 }
 
-class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity) : ImportLauncher {
+class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity, private val nameStringId: Int) :
+        ImportLauncher {
 
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent("android.intent.action.MAIN")
@@ -51,7 +52,7 @@ class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity) : I
 
         val bundle = Bundle()
         bundle.putString(EXTRA_PICTURE_PATH_POCKET_PAINT, "")
-        bundle.putString(EXTRA_PICTURE_NAME_POCKET_PAINT, activity.getString(R.string.default_look_name))
+        bundle.putString(EXTRA_PICTURE_NAME_POCKET_PAINT, activity.getString(nameStringId))
         intent.putExtras(bundle)
         intent.addCategory("android.intent.category.LAUNCHER")
 
@@ -76,10 +77,10 @@ class ImportFromFileLauncher(private val activity: AppCompatActivity, private va
     }
 }
 
-class ImportFromCameraLauncher(private val activity: AppCompatActivity) : ImportLauncher {
+class ImportFromCameraLauncher(private val activity: AppCompatActivity, private val nameStringId: Int) : ImportLauncher {
 
     fun getCacheCameraUri(): Uri {
-        val childName = activity.getString(R.string.default_look_name)
+        val childName = activity.getString(nameStringId)
         val cacheDir = File(activity.cacheDir.absolutePath + "/cameraCache")
         if (!cacheDir.exists()) {
             cacheDir.mkdirs()

@@ -55,11 +55,14 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	protected void initializeAdapter() {
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_looks);
+		int snackBarHintStringId = isBackground() ? R.string.hint_backgrounds : R.string.hint_looks;
+		SnackbarUtil.showHintSnackbar(getActivity(), snackBarHintStringId);
 		sharedPreferenceDetailsKey = SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
 		List<LookData> items = ProjectManager.getInstance().getCurrentSprite().getLookList();
 		adapter = new LookAdapter(items);
-		emptyView.setText(R.string.fragment_look_text_description);
+		int emptyViewTextDescriptionId = isBackground() ? R.string.fragment_background_text_description : R.string
+				.fragment_look_text_description;
+		emptyView.setText(emptyViewTextDescriptionId);
 		onAdapterReady();
 	}
 
@@ -79,7 +82,8 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		}
 
 		if (packedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_looks,
+			int toastSuccessfulPackedId = isBackground() ? R.plurals.packed_backgrounds : R.plurals.packed_looks;
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(toastSuccessfulPackedId,
 					packedItemCnt,
 					packedItemCnt));
 			switchToBackpack();
@@ -118,7 +122,8 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		}
 
 		if (copiedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_looks,
+			int toastSuccessfulCopiedStringId = isBackground() ? R.plurals.copied_backgrounds : R.plurals.copied_looks;
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(toastSuccessfulCopiedStringId,
 					copiedItemCnt,
 					copiedItemCnt));
 		}
@@ -129,7 +134,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	@Override
 	@PluralsRes
 	protected int getDeleteAlertTitleId() {
-		return R.plurals.delete_looks;
+		return isBackground() ? R.plurals.delete_backgrounds : R.plurals.delete_looks;
 	}
 
 	@Override
@@ -144,8 +149,8 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 			}
 			adapter.remove(item);
 		}
-
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_looks,
+		int toastSuccessfulDeletedStringId = isBackground() ? R.plurals.deleted_backgrounds : R.plurals.deleted_looks;
+		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(toastSuccessfulDeletedStringId,
 				selectedItems.size(),
 				selectedItems.size()));
 		finishActionMode();
@@ -153,12 +158,12 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	protected int getRenameDialogTitle() {
-		return R.string.rename_look_dialog;
+		return isBackground() ? R.string.rename_background_dialog : R.string.rename_look_dialog;
 	}
 
 	@Override
 	protected int getRenameDialogHint() {
-		return R.string.look_name_label;
+		return isBackground() ? R.string.background_name_label : R.string.look_name_label;
 	}
 
 	@Override
@@ -166,13 +171,13 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
 		switch (actionModeType) {
 			case BACKPACK:
-				return R.plurals.am_pack_looks_title;
+				return isBackground() ? R.plurals.am_pack_backgrounds_title : R.plurals.am_pack_looks_title;
 			case COPY:
-				return R.plurals.am_copy_looks_title;
+				return isBackground() ? R.plurals.am_copy_backgrounds_title : R.plurals.am_copy_looks_title;
 			case DELETE:
-				return R.plurals.am_delete_looks_title;
+				return isBackground() ? R.plurals.am_delete_backgrounds_title : R.plurals.am_delete_looks_title;
 			case RENAME:
-				return R.plurals.am_rename_looks_title;
+				return isBackground() ? R.plurals.am_rename_backgrounds_title : R.plurals.am_rename_looks_title;
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");
@@ -195,5 +200,9 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		intent.addCategory("android.intent.category.LAUNCHER");
 
 		startActivity(intent);
+	}
+
+	private Boolean isBackground() {
+		return ProjectManager.getInstance().getCurrentSpritePosition() == 0;
 	}
 }

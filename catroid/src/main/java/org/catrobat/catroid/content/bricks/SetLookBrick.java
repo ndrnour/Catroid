@@ -110,7 +110,7 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 			return;
 		}
 		((SpriteActivity) activity).registerOnNewLookListener(this);
-		((SpriteActivity) activity).handleAddLookButton();
+		((SpriteActivity) activity).handleAddLookButton(R.string.new_look_dialog_title, R.string.default_look_name);
 	}
 
 	@Override

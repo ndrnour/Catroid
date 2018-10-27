@@ -257,7 +257,7 @@ public class SpriteActivity extends BaseActivity {
 				addSpriteFromUri(uri);
 				break;
 			case SPRITE_CAMERA:
-				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
+				uri = new ImportFromCameraLauncher(this, R.string.default_object_name).getCacheCameraUri();
 				addSpriteFromUri(uri);
 				break;
 			case BACKGROUND_POCKET_PAINT:
@@ -273,7 +273,7 @@ public class SpriteActivity extends BaseActivity {
 				addBackgroundFromUri(uri);
 				break;
 			case BACKGROUND_CAMERA:
-				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
+				uri = new ImportFromCameraLauncher(this, R.string.background).getCacheCameraUri();
 				addBackgroundFromUri(uri);
 				break;
 			case LOOK_POCKET_PAINT:
@@ -289,7 +289,8 @@ public class SpriteActivity extends BaseActivity {
 				addLookFromUri(uri);
 				break;
 			case LOOK_CAMERA:
-				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
+				int defaultObjectNameStringId = isBackground() ? R.string.background : R.string.default_look_name;
+				uri = new ImportFromCameraLauncher(this, defaultObjectNameStringId).getCacheCameraUri();
 				addLookFromUri(uri);
 				break;
 			case SOUND_RECORD:
@@ -424,7 +425,7 @@ public class SpriteActivity extends BaseActivity {
 		File soundDirectory = new File(currentScene.getDirectory(), SOUND_DIRECTORY_NAME);
 		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
 		if (name == null) {
-			name = getString(R.string.default_sound_name);
+			name = isBackground() ? getString(R.string.background) : getString(R.string.default_look_name);
 		} else {
 			name = StorageOperations.getSanitizedFileName(name);
 		}
@@ -451,7 +452,9 @@ public class SpriteActivity extends BaseActivity {
 			return;
 		}
 		if (getCurrentFragment() instanceof LookListFragment) {
-			handleAddLookButton();
+			int dialogTitleStringId = isBackground() ? R.string.new_background_dialog_title : R.string.new_look_dialog_title;
+			int defaultObjectNameStringId = isBackground() ? R.string.background : R.string.default_look_name;
+			handleAddLookButton(dialogTitleStringId, defaultObjectNameStringId);
 			return;
 		}
 		if (getCurrentFragment() instanceof SoundListFragment) {
@@ -472,7 +475,7 @@ public class SpriteActivity extends BaseActivity {
 			public void onClick(View view) {
 				switch (view.getId()) {
 					case R.id.dialog_new_look_paintroid:
-						new ImportFromPocketPaintLauncher(SpriteActivity.this)
+						new ImportFromPocketPaintLauncher(SpriteActivity.this, R.string.default_object_name)
 								.startActivityForResult(SPRITE_POCKET_PAINT);
 						break;
 					case R.id.dialog_new_look_media_library:
@@ -484,7 +487,7 @@ public class SpriteActivity extends BaseActivity {
 								.startActivityForResult(SPRITE_FILE);
 						break;
 					case R.id.dialog_new_look_camera:
-						new ImportFromCameraLauncher(SpriteActivity.this)
+						new ImportFromCameraLauncher(SpriteActivity.this, R.string.default_object_name)
 								.startActivityForResult(SPRITE_CAMERA);
 						break;
 				}
@@ -503,7 +506,7 @@ public class SpriteActivity extends BaseActivity {
 		View view = View.inflate(this, R.layout.dialog_new_look, null);
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle(R.string.new_look_dialog_title)
+				.setTitle(R.string.new_background_dialog_title)
 				.setView(view)
 				.create();
 
@@ -520,7 +523,7 @@ public class SpriteActivity extends BaseActivity {
 			public void onClick(View view) {
 				switch (view.getId()) {
 					case R.id.dialog_new_look_paintroid:
-						new ImportFromPocketPaintLauncher(SpriteActivity.this)
+						new ImportFromPocketPaintLauncher(SpriteActivity.this, R.string.background)
 								.startActivityForResult(BACKGROUND_POCKET_PAINT);
 						break;
 					case R.id.dialog_new_look_media_library:
@@ -532,7 +535,7 @@ public class SpriteActivity extends BaseActivity {
 								.startActivityForResult(BACKGROUND_FILE);
 						break;
 					case R.id.dialog_new_look_camera:
-						new ImportFromCameraLauncher(SpriteActivity.this)
+						new ImportFromCameraLauncher(SpriteActivity.this, R.string.background)
 								.startActivityForResult(BACKGROUND_CAMERA);
 						break;
 				}
@@ -547,11 +550,11 @@ public class SpriteActivity extends BaseActivity {
 		alertDialog.show();
 	}
 
-	public void handleAddLookButton() {
+	public void handleAddLookButton(int titleStringId, final int nameId) {
 		View view = View.inflate(this, R.layout.dialog_new_look, null);
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle(R.string.new_look_dialog_title)
+				.setTitle(titleStringId)
 				.setView(view)
 				.create();
 
@@ -575,7 +578,7 @@ public class SpriteActivity extends BaseActivity {
 			public void onClick(View view) {
 				switch (view.getId()) {
 					case R.id.dialog_new_look_paintroid:
-						new ImportFromPocketPaintLauncher(SpriteActivity.this)
+						new ImportFromPocketPaintLauncher(SpriteActivity.this, nameId)
 								.startActivityForResult(LOOK_POCKET_PAINT);
 						break;
 					case R.id.dialog_new_look_media_library:
@@ -587,7 +590,7 @@ public class SpriteActivity extends BaseActivity {
 								.startActivityForResult(LOOK_FILE);
 						break;
 					case R.id.dialog_new_look_camera:
-						new ImportFromCameraLauncher(SpriteActivity.this)
+						new ImportFromCameraLauncher(SpriteActivity.this, nameId)
 								.startActivityForResult(LOOK_CAMERA);
 						break;
 				}
@@ -764,5 +767,9 @@ public class SpriteActivity extends BaseActivity {
 		} else {
 			startActivity(new Intent(this, StageActivity.class));
 		}
+	}
+
+	private Boolean isBackground() {
+		return ProjectManager.getInstance().getCurrentSpritePosition() == 0;
 	}
 }

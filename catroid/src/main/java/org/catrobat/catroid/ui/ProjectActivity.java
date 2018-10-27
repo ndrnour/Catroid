@@ -213,7 +213,7 @@ public class ProjectActivity extends BaseCastActivity {
 				addSpriteFromUri(uri);
 				break;
 			case SPRITE_CAMERA:
-				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
+				uri = new ImportFromCameraLauncher(this, R.string.default_object_name).getCacheCameraUri();
 				addSpriteFromUri(uri);
 				break;
 		}
@@ -224,7 +224,7 @@ public class ProjectActivity extends BaseCastActivity {
 
 		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
 		if (name == null) {
-			name = getString(R.string.default_look_name);
+			name = getString(R.string.default_object_name);
 		} else {
 			name = StorageOperations.getSanitizedFileName(name);
 		}
@@ -320,7 +320,7 @@ public class ProjectActivity extends BaseCastActivity {
 			public void onClick(View view) {
 				switch (view.getId()) {
 					case R.id.dialog_new_look_paintroid:
-						new ImportFromPocketPaintLauncher(ProjectActivity.this)
+						new ImportFromPocketPaintLauncher(ProjectActivity.this, R.string.default_object_name)
 								.startActivityForResult(SPRITE_POCKET_PAINT);
 						break;
 					case R.id.dialog_new_look_media_library:
@@ -332,7 +332,7 @@ public class ProjectActivity extends BaseCastActivity {
 								.startActivityForResult(SPRITE_FILE);
 						break;
 					case R.id.dialog_new_look_camera:
-						new ImportFromCameraLauncher(ProjectActivity.this)
+						new ImportFromCameraLauncher(ProjectActivity.this, R.string.default_object_name)
 								.startActivityForResult(SPRITE_CAMERA);
 						break;
 				}

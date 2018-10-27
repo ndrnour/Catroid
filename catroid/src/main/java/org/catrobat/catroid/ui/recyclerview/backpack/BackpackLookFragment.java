@@ -73,7 +73,8 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 		}
 
 		if (unpackedItemCnt > 0) {
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_looks,
+			int toastSuccessfulUnpackedId = isBackground() ? R.plurals.unpacked_backgrounds : R.plurals.unpacked_looks;
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(toastSuccessfulUnpackedId,
 					unpackedItemCnt,
 					unpackedItemCnt));
 			getActivity().finish();
@@ -85,7 +86,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	@PluralsRes
 	protected int getDeleteAlertTitleId() {
-		return R.plurals.delete_looks;
+		return isBackground() ? R.plurals.delete_backgrounds : R.plurals.delete_looks;
 	}
 
 	@Override
@@ -99,7 +100,8 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 			}
 			adapter.remove(item);
 		}
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_looks,
+		int toastSuccessfulDeletedId = isBackground() ? R.plurals.deleted_backgrounds : R.plurals.deleted_looks;
+		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(toastSuccessfulDeletedId,
 				selectedItems.size(),
 				selectedItems.size()));
 
@@ -120,12 +122,16 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
 		switch (actionModeType) {
 			case UNPACK:
-				return R.plurals.am_unpack_looks_title;
+				return isBackground() ? R.plurals.am_unpack_backgrounds_title :R.plurals.am_unpack_looks_title;
 			case DELETE:
-				return R.plurals.am_delete_looks_title;
+				return isBackground() ? R.plurals.am_delete_backgrounds_title :R.plurals.am_delete_looks_title;
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");
 		}
+	}
+
+	private Boolean isBackground() {
+		return ProjectManager.getInstance().getCurrentSpritePosition() == 0;
 	}
 }
