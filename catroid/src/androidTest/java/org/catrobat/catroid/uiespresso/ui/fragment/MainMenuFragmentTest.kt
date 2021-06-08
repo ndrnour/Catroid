@@ -108,17 +108,6 @@ class MainMenuFragmentTest : KoinTest {
     }
 
     @Test
-    fun testIsLoading() {
-        waitFor(800)
-        onView(withId(R.id.shimmerViewContainer))
-            .perform(scrollTo())
-            .check(matches(isDisplayed()))
-
-        onView(withId(R.id.categoriesRecyclerView))
-            .check(matches(not(isDisplayed())))
-    }
-
-    @Test
     fun testCategoriesAreLoadedAfter9Seconds() {
         waitFor(9000)
         onView(withId(R.id.categoriesRecyclerView))
@@ -159,13 +148,16 @@ class MainMenuFragmentTest : KoinTest {
     @Test
     fun testShowInternetMsg() {
         connectionMonitor.setValueTo(false)
-        waitFor()
-        onView(withId(R.id.noInternetLayout))
+        onView(withId(R.id.featuredProjectsRecyclerView))
             .check(matches(isDisplayed()))
+
+        onView(withId(R.id.noInternetLayout))
+            .perform(scrollTo(), CustomActions.wait(900))
+            .check(matches(isDisplayed()))
+
         onView(withText(R.string.no_internet_connection))
             .check(matches(isDisplayed()))
-        onView(withId(R.id.featuredProjectsRecyclerView))
-            .check(matches(not(isDisplayed())))
+
         connectionMonitor.setValueTo(true)
     }
 
