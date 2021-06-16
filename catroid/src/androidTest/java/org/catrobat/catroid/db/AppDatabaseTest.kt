@@ -24,32 +24,48 @@
 package org.catrobat.catroid.db
 
 import android.content.Context
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.asLiveData
 import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
+import androidx.test.platform.app.InstrumentationRegistry
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.catrobat.catroid.retrofit.models.FeaturedProject
+import org.catrobat.catroid.retrofit.models.ProjectCategoryWithResponses
+import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
+import org.catrobat.catroid.utils.getOrAwaitValue
+import org.catrobat.catroid.utils.toProjectCategoryWithResponsesList
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class AppDatabaseTest {
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var memoryDB: AppDatabase
     private lateinit var featuredProjectDao: FeaturedProjectDao
+    private lateinit var projectsCategoryDao: ProjectsCategoryDao
     private lateinit var context: Context
 
     @Before
     fun setUp() {
-        context = ApplicationProvider.getApplicationContext<Context>()
-        memoryDB = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
+        context = InstrumentationRegistry.getInstrumentation().context
+        memoryDB = Room.inMemoryDatabaseBuilder(
+            getApplicationContext<Context>(),
+            AppDatabase::class.java
+        ).allowMainThreadQueries()
+            .build()
         featuredProjectDao = memoryDB.featuredProjectDao()
+        projectsCategoryDao = memoryDB.projectCategoryDao()
     }
 
     @After
@@ -60,53 +76,68 @@ class AppDatabaseTest {
 
     @Test
     fun insertReadAndDeleteFeaturedProjects() {
-        GlobalScope.launch {
-            val projects = generateFeaturedProjects()
-            featuredProjectDao.insertFeaturedProjects(projects)
+        val projects = generateFeaturedProjects()
+        featuredProjectDao.insertFeaturedProjects(projects)
 
-            var fetchedFeaturedProjects = featuredProjectDao.getFeaturedProjects().toList()
-            assertTrue(fetchedFeaturedProjects.size == 3)
+        var fetchedFeaturedProjects =
+            featuredProjectDao.getFeaturedProjects()
+                .asLiveData()
+                .getOrAwaitValue()
+        assertTrue(fetchedFeaturedProjects.size == 3)
 
-            featuredProjectDao.deleteAll()
-            fetchedFeaturedProjects = featuredProjectDao.getFeaturedProjects().toList()
-            assertTrue(fetchedFeaturedProjects.isEmpty())
-        }
+        featuredProjectDao.deleteAll()
+        fetchedFeaturedProjects = featuredProjectDao
+            .getFeaturedProjects()
+            .asLiveData()
+            .getOrAwaitValue()
+        assertTrue(fetchedFeaturedProjects.isEmpty())
+    }
+
+    @Test
+    fun insertReadAndDeleteProjectsCategories() {
+        val categories = generateProjectsCategories()
+        projectsCategoryDao.insertProjectCategoriesWithResponses(categories)
+
+        var fetchedProjectsCategories = projectsCategoryDao
+            .getProjectsCategories()
+            .asLiveData()
+            .getOrAwaitValue()
+        assertEquals(fetchedProjectsCategories.size, 4)
+        assertEquals(fetchedProjectsCategories[0].projectsList.size, 20)
+        assertEquals(fetchedProjectsCategories[1].projectsList.size, 20)
+        assertEquals(fetchedProjectsCategories[2].projectsList.size, 20)
+        assertEquals(fetchedProjectsCategories[3].projectsList.size, 20)
+
+        projectsCategoryDao.nukeAll()
+
+        fetchedProjectsCategories = projectsCategoryDao
+            .getProjectsCategories()
+            .asLiveData()
+            .getOrAwaitValue()
+        assertTrue(fetchedProjectsCategories.isEmpty())
     }
 
     private fun generateFeaturedProjects(): List<FeaturedProject> {
-        return mutableListOf<FeaturedProject>()
-            .apply {
-                add(
-                    FeaturedProject(
-                        "58",
-                        "74758",
-                        "https://share.catrob.at/app/project/74758",
-                        "Palmina and the Pirates",
-                        "silverLining",
-                        "https://share.catrob.at/resources/featured/featured_58.png"
-                    )
-                )
-                add(
-                    FeaturedProject(
-                        "45",
-                        "48404",
-                        "https://share.catrob.at/app/project/48404",
-                        "Magic and More",
-                        "silverLining",
-                        "https://share.catrob.at/resources/featured/featured_45.png"
-                    )
-                )
+        val jsonString = context.loadJSONFromAssets(FEATURED_PROJECTS_RESPONSE)
+        val typeToken = object : TypeToken<List<FeaturedProject>>() {}.type
+        return Gson().fromJson(jsonString, typeToken)
+    }
 
-                add(
-                    FeaturedProject(
-                        "48",
-                        "53658",
-                        "https://share.catrob.at/app/project/53658",
-                        "CatWalk",
-                        "silverLining",
-                        "https://share.catrob.at/resources/featured/featured_48.png"
-                    )
-                )
-            }
+    private fun generateProjectsCategories(): List<ProjectCategoryWithResponses> {
+        val jsonString = context.loadJSONFromAssets(PROJECT_CATEGORIES_RESPONSE)
+        val typeToken = object : TypeToken<List<ProjectsCategoryApi>>() {}.type
+        val categories: List<ProjectsCategoryApi> = Gson().fromJson(jsonString, typeToken)
+        return categories.toProjectCategoryWithResponsesList()
+    }
+
+    private fun Context.loadJSONFromAssets(fileName: String): String {
+        return assets.open(fileName).bufferedReader().use { reader ->
+            reader.readText()
+        }
+    }
+
+    companion object {
+        private const val FEATURED_PROJECTS_RESPONSE = "featured_projects_success_response.json"
+        private const val PROJECT_CATEGORIES_RESPONSE = "projects_categories_response.json"
     }
 }

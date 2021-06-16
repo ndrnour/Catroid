@@ -25,14 +25,24 @@ package org.catrobat.catroid.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import org.catrobat.catroid.retrofit.converters.BooleanConverter
+import org.catrobat.catroid.retrofit.converters.StringListConverter
 import org.catrobat.catroid.retrofit.models.FeaturedProject
+import org.catrobat.catroid.retrofit.models.ProjectResponse
+import org.catrobat.catroid.retrofit.models.ProjectsCategory
 
 @Database(
-    entities = [FeaturedProject::class],
-    version = 1,
+    entities = [FeaturedProject::class,
+        ProjectsCategory::class,
+        ProjectResponse::class],
+    version = 2,
     exportSchema = true
 )
+@TypeConverters(StringListConverter::class, BooleanConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun featuredProjectDao(): FeaturedProjectDao
+
+    abstract fun projectCategoryDao(): ProjectsCategoryDao
 }

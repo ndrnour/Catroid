@@ -27,41 +27,44 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.retrofit.WebService
-import org.catrobat.catroid.retrofit.models.FeaturedProject
+import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
+import org.catrobat.catroid.utils.toProjectCategoryWithResponsesList
 
-interface FeaturedProjectsSync {
+interface ProjectsCategoriesSync {
 
+    // after language change from settings call it with force = true
     fun sync(force: Boolean = false)
 }
 
-class DefaultFeaturedProjectSync(
+class DefaultProjectsCategoriesSync(
     private val webService: WebService,
     private val appDatabase: AppDatabase,
     private val localHashVersionRepository: LocalHashVersionRepository
-) : FeaturedProjectsSync {
+) : ProjectsCategoriesSync {
 
     @WorkerThread
     override fun sync(force: Boolean) {
-        val localHashVersion = localHashVersionRepository.getFeaturedProjectsHashVersion()
-        val response = webService.getFeaturedProjects().execute()
+        val localHashVersion = localHashVersionRepository.getProjectsCategoriesHashVersion()
+        val response = webService.getProjectCategories().execute()
         val serverHashVersion = response.headers().get("x-response-hash")
         Log.d(javaClass.simpleName, "local stored hash version: $localHashVersion")
         Log.d(javaClass.simpleName, "server hash version: $serverHashVersion")
         if (requireUpdate(localHashVersion, serverHashVersion) || force) {
             update(response.body())
-            localHashVersionRepository.setFeaturedProjectsHashVersion(serverHashVersion)
+            localHashVersionRepository.setProjectsCategoriesHashVersion(serverHashVersion)
         } else {
             Log.d(javaClass.simpleName, "no update needed! you've latest version :)")
         }
     }
 
-    private fun update(body: List<FeaturedProject>?) {
-        Log.d(javaClass.simpleName, "updating feature projects")
+    private fun update(body: List<ProjectsCategoryApi>?) {
+        Log.d(javaClass.simpleName, "updating projectsCategories")
         Log.d(javaClass.simpleName, "$body")
-        body?.let {
-            appDatabase.featuredProjectDao().deleteAll()
-            appDatabase.featuredProjectDao().insertFeaturedProjects(it)
+
+        body?.toProjectCategoryWithResponsesList()?.let {
+            appDatabase.projectCategoryDao().nukeAll()
+            appDatabase.projectCategoryDao().insertProjectCategoriesWithResponses(it)
         }
     }
 

@@ -33,6 +33,9 @@ interface LocalHashVersionRepository {
     fun getFeaturedProjectsHashVersion(): String?
     fun setFeaturedProjectsHashVersion(hashVersion: String?)
 
+    fun getProjectsCategoriesHashVersion(): String?
+    fun setProjectsCategoriesHashVersion(hashVersion: String?)
+
     fun reset()
 }
 
@@ -51,6 +54,7 @@ class DefaultLocalHashVersionRepository(
 
     companion object {
         private const val FEATURED_PROJECTS_HASH_VERSION = "featured_projects_hash_version"
+        private const val PROJECT_CATEGORIES_HASH_VERSION = "project_categories_hash_version"
     }
 
     override fun getFeaturedProjectsHashVersion() =
@@ -59,6 +63,16 @@ class DefaultLocalHashVersionRepository(
     override fun setFeaturedProjectsHashVersion(hashVersion: String?) {
         with(encryptedPref.edit()) {
             putString(FEATURED_PROJECTS_HASH_VERSION, hashVersion)
+            apply()
+        }
+    }
+
+    override fun getProjectsCategoriesHashVersion() =
+        encryptedPref.getString(PROJECT_CATEGORIES_HASH_VERSION, null)
+
+    override fun setProjectsCategoriesHashVersion(hashVersion: String?) {
+        with(encryptedPref.edit()) {
+            putString(PROJECT_CATEGORIES_HASH_VERSION, hashVersion)
             apply()
         }
     }

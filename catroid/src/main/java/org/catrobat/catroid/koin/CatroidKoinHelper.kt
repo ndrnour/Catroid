@@ -28,15 +28,20 @@ import androidx.room.Room
 import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.db.AppDatabase
+import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.retrofit.CatroidWebServer
 import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
+import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
+import org.catrobat.catroid.sync.ProjectsCategoriesSync
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultLocalHashVersionRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
+import org.catrobat.catroid.ui.recyclerview.repository.DefaultProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.repository.FeaturedProjectsRepository
+import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.koin.android.ext.koin.androidContext
@@ -50,6 +55,7 @@ import org.koin.dsl.module
 val componentsModules = module(createdAtStart = true, override = false) {
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "app_database")
+            .addMigrations(DatabaseMigrations.MIGRATION_1_2)
             .build()
     }
     single {
@@ -62,6 +68,10 @@ val componentsModules = module(createdAtStart = true, override = false) {
     single {
         DefaultFeaturedProjectSync(get(), get(), get()) as FeaturedProjectsSync
     }
+
+    single {
+        DefaultProjectsCategoriesSync(get(), get(), get()) as ProjectsCategoriesSync
+    }
 }
 
 /**
@@ -69,7 +79,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
  * https://github.com/InsertKoinIO/koin/blob/master/koin-projects/docs/reference/koin-android/viewmodel.md
  */
 val viewModelModules = module {
-    viewModel { MainFragmentViewModel(get(), get(), get()) }
+    viewModel { MainFragmentViewModel(get(), get(), get(), get()) }
 }
 
 val repositoryModules = module {
@@ -79,6 +89,10 @@ val repositoryModules = module {
 
     single {
         DefaultFeaturedProjectsRepository(get()) as FeaturedProjectsRepository
+    }
+
+    single {
+        DefaultProjectCategoriesRepository(get()) as ProjectCategoriesRepository
     }
 }
 

@@ -348,6 +348,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    androidTestImplementation ('androidx.arch.core:core-testing:2.1.0') {
+        exclude group: 'org.mockito', module: 'mockito-core'
+    }
 
     // Support libraries
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -376,9 +379,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-moshi:2.7.1'
     // Glide (Images downloader)
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-
-    // Shimmer effect
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
