@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ProjectRenameTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -60,7 +61,7 @@ public class ProjectRenameTask extends AsyncTask<Void, Void, Boolean> {
 
 		if (projectDir.renameTo(destinationDir)
 				&& XstreamSerializer.renameProject(new File(destinationDir, CODE_XML_FILE_NAME), destinationName)) {
-			ProjectManager.getInstance().moveChangedFlag(projectDir.getName(), destinationName);
+			inject(ProjectManager.class).getValue().moveChangedFlag(projectDir.getName(), destinationName);
 			return destinationDir;
 		} else {
 			throw new IOException("Cannot rename project directory " + projectDir.getAbsolutePath() + " to " + destinationName);
